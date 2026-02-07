@@ -1,69 +1,69 @@
-/**
- * Remark plugin: converts :::lang-en / :::lang-zh fenced blocks
- * into <div class="lang-en"> / <div class="lang-zh"> wrappers
- * so the CSS bilingual toggle works.
- */
+// Remark plugin to convert :::lang-en / :::lang-zh fenced divs into HTML divs
 import { visit } from 'unist-util-visit';
 
-export default function remarkLangBlocks() {
+export function remarkLangBlocks() {
   return (tree) => {
-    const children = tree.children;
-    const result = [];
+    const newChildren = [];
     let currentLang = null;
     let buffer = [];
 
-    function flush() {
-      if (currentLang && buffer.length > 0) {
-        result.push({
-          type: 'html',
-          value: `<div class="${currentLang}">`,
-        });
-        result.push(...buffer);
-        result.push({
-          type: 'html',
-          value: `</div>`,
-        });
-        buffer = [];
-        currentLang = null;
-      }
-    }
-
-    for (const node of children) {
-      // Detect opening markers: :::lang-en or :::lang-zh
+    for (const node of tree.children) {
+      // Check if this is a paragraph containing just ":::lang-en" or ":::lang-zh" or ":::"
+      let text = '';
       if (node.type === 'paragraph' && node.children?.length === 1 && node.children[0].type === 'text') {
-        const text = node.children[0].value.trim();
-        
-        if (text === ':::lang-en') {
-          flush();
-          currentLang = 'lang-en';
-          continue;
-        }
-        if (text === ':::lang-zh') {
-          flush();
-          currentLang = 'lang-zh';
-          continue;
-        }
-        // Closing ::: marker
-        if (text === ':::') {
-          flush();
-          continue;
-        }
+        text = node.children[0].value.trim();
       }
 
-      if (currentLang) {
+      if (text === ':::lang-en' || text === ':::lang-zh') {
+        // Close previous block if open
+        if (currentLang && buffer.length > 0) {
+          newChildren.push({
+            type: 'html',
+            value: `<div class="${currentLang}">`,
+          });
+          newChildren.push(...buffer);
+          newChildren.push({
+            type: 'html',
+            value: `</div>`,
+          });
+          buffer = [];
+        }
+        currentLang = text === ':::lang-en' ? 'lang-en' : 'lang-zh';
+      } else if (text === ':::') {
+        // Close current block
+        if (currentLang && buffer.length > 0) {
+          newChildren.push({
+            type: 'html',
+            value: `<div class="${currentLang}">`,
+          });
+          newChildren.push(...buffer);
+          newChildren.push({
+            type: 'html',
+            value: `</div>`,
+          });
+          buffer = [];
+        }
+        currentLang = null;
+      } else if (currentLang) {
         buffer.push(node);
       } else {
-        result.push(node);
+        newChildren.push(node);
       }
     }
 
-    // Flush any remaining buffer
-    flush();
-    // Also push any remaining nodes that aren't in a block
-    if (!currentLang && buffer.length > 0) {
-      result.push(...buffer);
+    // Flush remaining buffer
+    if (currentLang && buffer.length > 0) {
+      newChildren.push({
+        type: 'html',
+        value: `<div class="${currentLang}">`,
+      });
+      newChildren.push(...buffer);
+      newChildren.push({
+        type: 'html',
+        value: `</div>`,
+      });
     }
 
-    tree.children = result;
+    tree.children = newChildren;
   };
 }

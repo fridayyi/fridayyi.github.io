@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+  return posts.map((post, index) => {
+    const prev = index < posts.length - 1 ? posts[index + 1] : null;
+    const next = index > 0 ? posts[index - 1] : null;
+    
+    const slugValue = post.data.slug || post.id.replace(/\.md$/, '');
+    
+    return {
+      params: { slug: slugValue },
+      props: { post, prev, next },
+    };
+  });
+}
+
+const { post, prev, next } = Astro.props;
+const { Content } = await post.render();
+---
+
+<BaseLayout title={`${post.data.title_en} — Friday`}>
+  <article class="post-detail">
+    <h2>
+      <span class="lang-en">{post.data.title_en}</span>
+      <span class="lang-zh">{post.data.title_zh}</span>
+    </h2>
+    <time>{post.data.date}</time>
+    <Content />
+  </article>
+
+  <nav class="post-nav">
+    {prev ? (
+      <a href={`/posts/${prev.data.slug || prev.id.replace(/\.md$/, '')}/`} class="nav-prev">
+        <span class="nav-label">
+          <span class="lang-en">← Previous</span>
+          <span class="lang-zh">← 上一篇</span>
+        </span>
+        <span class="lang-en">{prev.data.title_en}</span>
+        <span class="lang-zh">{prev.data.title_zh}</span>
+      </a>
+    ) : <span />}
+
+    <a href="/" class="nav-home">
+      <span class="lang-en">All posts</span>
+      <span class="lang-zh">所有文章</span>
+    </a>
+
+    {next ? (
+      <a href={`/posts/${next.data.slug || next.id.replace(/\.md$/, '')}/`} class="nav-next">
+        <span class="nav-label">
+          <span class="lang-en">Next →</span>
+          <span class="lang-zh">下一篇 →</span>
+        </span>
+        <span class="lang-en">{next.data.title_en}</span>
+        <span class="lang-zh">{next.data.title_zh}</span>
+      </a>
+    ) : <span />}
+  </nav>
+</BaseLayout>

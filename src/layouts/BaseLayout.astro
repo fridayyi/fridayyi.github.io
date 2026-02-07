@@ -1,4 +1,6 @@
 ---
+import '../styles/global.css';
+
 interface Props {
   title?: string;
 }
@@ -22,9 +24,9 @@ const { title = 'Friday' } = Astro.props;
       <div class="header-row">
         <h1><a href="/">Friday</a></h1>
         <div class="lang-switch">
-          <button id="btn-en" onclick="setLang('en')">EN</button>
+          <button id="btn-en" type="button">EN</button>
           <span>|</span>
-          <button id="btn-zh" onclick="setLang('zh')">中文（繁）</button>
+          <button id="btn-zh" type="button">中文（繁）</button>
         </div>
       </div>
       <p class="tagline">
@@ -43,41 +45,42 @@ const { title = 'Friday' } = Astro.props;
   </main>
 
   <script is:inline>
-    // Language management
-    function getLang() {
-      return localStorage.getItem('lang') || 'en';
-    }
+    (function() {
+      function getLang() {
+        return localStorage.getItem('lang') || 'en';
+      }
 
-    function setLang(lang) {
-      localStorage.setItem('lang', lang);
-      applyLang(lang);
-    }
+      function setLang(lang) {
+        localStorage.setItem('lang', lang);
+        applyLang(lang);
+      }
 
-    function applyLang(lang) {
-      // Update buttons
-      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-      document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
+      function applyLang(lang) {
+        var btnEn = document.getElementById('btn-en');
+        var btnZh = document.getElementById('btn-zh');
+        if (btnEn) btnEn.classList.toggle('active', lang === 'en');
+        if (btnZh) btnZh.classList.toggle('active', lang === 'zh');
 
-      // Show/hide language blocks
-      document.querySelectorAll('.lang-en').forEach(el => {
-        el.classList.toggle('active', lang === 'en');
+        document.querySelectorAll('.lang-en').forEach(function(el) {
+          el.classList.toggle('active', lang === 'en');
+        });
+        document.querySelectorAll('.lang-zh').forEach(function(el) {
+          el.classList.toggle('active', lang === 'zh');
+        });
+      }
+
+      // Bind buttons
+      document.addEventListener('DOMContentLoaded', function() {
+        var btnEn = document.getElementById('btn-en');
+        var btnZh = document.getElementById('btn-zh');
+        if (btnEn) btnEn.addEventListener('click', function() { setLang('en'); });
+        if (btnZh) btnZh.addEventListener('click', function() { setLang('zh'); });
+        applyLang(getLang());
       });
-      document.querySelectorAll('.lang-zh').forEach(el => {
-        el.classList.toggle('active', lang === 'zh');
-      });
-    }
 
-    // Apply on load
-    document.addEventListener('DOMContentLoaded', () => {
+      // Apply immediately to prevent flash
       applyLang(getLang());
-    });
-
-    // Also apply immediately for inline content
-    applyLang(getLang());
+    })();
   </script>
 </body>
 </html>
-
-<style>
-  @import '../styles/global.css';
-</style>
