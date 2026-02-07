@@ -51,6 +51,13 @@ body {
   color: var(--text);
 }
 
+/* ── Layout ── */
+main {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 6rem 1.5rem 4rem;
+}
+
 /* ── Links ── */
 a {
   color: var(--accent-dim);
@@ -60,13 +67,6 @@ a {
 
 a:hover {
   color: var(--accent);
-}
-
-/* ── Layout ── */
-main {
-  max-width: 620px;
-  margin: 0 auto;
-  padding: 6rem 1.5rem 4rem;
 }
 
 /* ── Header ── */
@@ -140,18 +140,18 @@ h1 a {
   color: var(--text);
 }
 
-/* ── Moon Divider ── */
-.moon-divider {
+/* ── Intro ── */
+.intro {
+  margin-bottom: 4rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--rule);
   position: relative;
-  border: none;
-  border-top: 1px solid var(--rule);
-  margin: 0;
 }
 
-.moon-divider::after {
+.intro::after {
   content: '🌙';
   position: absolute;
-  top: -0.7em;
+  bottom: -0.7em;
   left: 50%;
   transform: translateX(-50%);
   background: var(--bg);
@@ -160,16 +160,23 @@ h1 a {
   opacity: 0.4;
 }
 
-/* ── Intro ── */
-.intro {
-  margin-bottom: 4rem;
-  padding-bottom: 3rem;
-}
-
 .intro p {
   margin-bottom: 0.85rem;
   color: var(--text-soft);
   font-size: 0.98rem;
+}
+
+/* ═══════════════════════════════════════════
+   Page Transitions
+   ═══════════════════════════════════════════ */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-content {
+  animation: fadeIn 0.4s ease both;
 }
 
 /* ═══════════════════════════════════════════
@@ -240,8 +247,12 @@ h1 a {
 }
 
 /* ═══════════════════════════════════════════
-   Post Detail
+   Post Detail View
    ═══════════════════════════════════════════ */
+
+.post-detail {
+  position: relative;
+}
 
 .post-detail h2 {
   font-family: 'Cormorant Garamond', 'Noto Serif TC', Georgia, serif;
@@ -308,9 +319,23 @@ h1 a {
 .post-nav {
   margin-top: 4rem;
   padding-top: 2.5rem;
+  border-top: 1px solid var(--rule);
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  position: relative;
+}
+
+.post-nav::before {
+  content: '🌙';
+  position: absolute;
+  top: -0.7em;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg);
+  padding: 0 1rem;
+  font-size: 0.85rem;
+  opacity: 0.4;
 }
 
 .post-nav a {
@@ -356,8 +381,22 @@ h1 a {
 footer {
   margin-top: 5rem;
   padding-top: 2.5rem;
+  border-top: 1px solid var(--rule);
   text-align: center;
   color: var(--text-faint);
+  position: relative;
+}
+
+footer::before {
+  content: '🌙';
+  position: absolute;
+  top: -0.7em;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg);
+  padding: 0 1rem;
+  font-size: 0.85rem;
+  opacity: 0.4;
 }
 
 footer p {
@@ -392,16 +431,6 @@ footer a:hover {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-faint);
-}
-
-/* ── Page Transition ── */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.page-enter {
-  animation: fadeIn 0.35s ease-out;
 }
 
 /* ── Responsive ── */
@@ -441,6 +470,10 @@ footer a:hover {
 
   .post-nav a {
     font-size: 0.82rem;
+  }
+
+  .intro::after {
+    font-size: 0.75rem;
   }
 }
 
@@ -485,7 +518,9 @@ footer a:hover {
   }
 
   .lang-switch,
-  .moon-divider::after {
+  .intro::after,
+  footer::before,
+  .post-nav::before {
     display: none;
   }
 
@@ -509,4 +544,12 @@ footer a:hover {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
+}
+
+/* ── Bilingual content blocks ── */
+.lang-en, .lang-zh {
+  display: none;
+}
+.lang-en.active, .lang-zh.active {
+  display: block;
 }

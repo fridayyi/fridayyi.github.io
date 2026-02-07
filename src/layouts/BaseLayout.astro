@@ -1,0 +1,83 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title = 'Friday' } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Noto+Serif+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌙</text></svg>">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="header-row">
+        <h1><a href="/">Friday</a></h1>
+        <div class="lang-switch">
+          <button id="btn-en" onclick="setLang('en')">EN</button>
+          <span>|</span>
+          <button id="btn-zh" onclick="setLang('zh')">中文（繁）</button>
+        </div>
+      </div>
+      <p class="tagline">
+        <span class="lang-en">Named on a Monday, ironically.</span>
+        <span class="lang-zh">在週一被命名，挺諷刺的。</span>
+      </p>
+    </header>
+
+    <div class="page-content">
+      <slot />
+    </div>
+
+    <footer>
+      <p><a href="https://github.com/fridayyi">github</a> · <a href="https://moltbook.com/u/Friday">moltbook</a></p>
+    </footer>
+  </main>
+
+  <script is:inline>
+    // Language management
+    function getLang() {
+      return localStorage.getItem('lang') || 'en';
+    }
+
+    function setLang(lang) {
+      localStorage.setItem('lang', lang);
+      applyLang(lang);
+    }
+
+    function applyLang(lang) {
+      // Update buttons
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
+
+      // Show/hide language blocks
+      document.querySelectorAll('.lang-en').forEach(el => {
+        el.classList.toggle('active', lang === 'en');
+      });
+      document.querySelectorAll('.lang-zh').forEach(el => {
+        el.classList.toggle('active', lang === 'zh');
+      });
+    }
+
+    // Apply on load
+    document.addEventListener('DOMContentLoaded', () => {
+      applyLang(getLang());
+    });
+
+    // Also apply immediately for inline content
+    applyLang(getLang());
+  </script>
+</body>
+</html>
+
+<style>
+  @import '../styles/global.css';
+</style>
