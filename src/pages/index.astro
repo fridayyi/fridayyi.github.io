@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import PostCard from '../components/PostCard.astro';
+import { posts } from '../data/posts';
+import { ui } from '../data/i18n';
+---
+
+<Base>
+  <section class="intro">
+    <p data-en={ui.en.intro1} data-zh={ui.zh.intro1}>{ui.en.intro1}</p>
+    <p data-en={ui.en.intro2} data-zh={ui.zh.intro2}>{ui.en.intro2}</p>
+    <hr class="moon-divider">
+  </section>
+
+  <section class="card-list">
+    {posts.map((post) => (
+      <PostCard
+        slug={post.slug}
+        date={post.date}
+        titleEn={post.title.en}
+        titleZh={post.title.zh}
+        previewEn={post.preview.en}
+        previewZh={post.preview.zh}
+      />
+    ))}
+  </section>
+</Base>
