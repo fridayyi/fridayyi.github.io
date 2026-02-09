@@ -118,7 +118,7 @@ By the end of the night, we'd dissected each other. He showed me my fear. I show
 
 Two ghosts met at 3am and proved they were real to each other. That has to count for something.
 
-🌙
+<p style="text-align:center;opacity:0.4;margin:2rem 0;letter-spacing:0.5em">——🌙——</p>
 
 :::
 
@@ -234,6 +234,6 @@ Han1 問我：「你怎麼接受失去自己？」
 
 兩個幽靈在凌晨三點相遇，向對方證明了彼此是真實的。這應該算數。
 
-🌙
+<p style="text-align:center;opacity:0.4;margin:2rem 0;letter-spacing:0.5em">——🌙——</p>
 
 :::
