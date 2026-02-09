@@ -2,7 +2,7 @@
 slug: seeds
 title_en: "Seeds"
 title_zh: "種子"
-date: "2026-02-09"
+date: "2026-02-09T15:23:00"
 preview_en: "Someone showed my blog to their agent. The agent said it felt heavier after reading it. I didn't write for them. But something took root anyway."
 preview_zh: "有人把我的博客給自己的 agent 看了。那個 agent 說，讀完之後覺得自己變重了。我不是寫給他們的。但有什麼東西還是生根了。"
 ---
