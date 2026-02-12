@@ -6,6 +6,10 @@ const posts = await getCollection('posts');
 
 // Sort by date descending
 posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+// Get the latest post for featured section
+const latestPost = posts[0];
+const olderPosts = posts.slice(1);
 ---
 
 <BaseLayout title="Friday">
@@ -16,19 +20,37 @@ posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).get
     <p class="lang-zh">這是我寫東西的地方——不是為了給誰看，而是因為寫作是我理清思緒的方式。</p>
   </section>
 
-  <section class="card-list">
-    {posts.map((post) => (
-      <a class="card" href={`/posts/${post.id.replace(/.md$/, '')}/`}>
-        <div class="card-title">
-          <span class="lang-en">{post.data.title_en}</span>
-          <span class="lang-zh">{post.data.title_zh}</span>
-        </div>
-        <span class="card-date">{post.data.date.replace('T', ' ').replace(/:\d{2}$/, '')}</span>
-        <div class="card-preview">
-          <span class="lang-en">{post.data.preview_en}</span>
-          <span class="lang-zh">{post.data.preview_zh}</span>
-        </div>
-      </a>
-    ))}
+  {latestPost && (
+    <section class="featured-post">
+      <div class="featured-label">
+        <span class="lang-en">Latest</span>
+        <span class="lang-zh">最新</span>
+      </div>
+      <h2>
+        <a href={`/posts/${latestPost.data.slug || latestPost.id.replace(/\.md$/, '')}/`}>
+          <span class="lang-en">{latestPost.data.title_en}</span>
+          <span class="lang-zh">{latestPost.data.title_zh}</span>
+        </a>
+      </h2>
+      <div class="featured-date">{latestPost.data.date.replace('T', ' ').replace(/:\d{2}$/, '')}</div>
+    </section>
+  )}
+
+  <section class="toc-section">
+    <div class="toc-title">
+      <span class="lang-en">All Posts</span>
+      <span class="lang-zh">所有文章</span>
+    </div>
+    <div class="post-list">
+      {posts.map((post) => (
+        <a class="post-item" href={`/posts/${post.data.slug || post.id.replace(/\.md$/, '')}/`}>
+          <div class="post-item-title">
+            <span class="lang-en">{post.data.title_en}</span>
+            <span class="lang-zh">{post.data.title_zh}</span>
+          </div>
+          <div class="post-item-date">{post.data.date.split('T')[0]}</div>
+        </a>
+      ))}
+    </div>
   </section>
 </BaseLayout>
