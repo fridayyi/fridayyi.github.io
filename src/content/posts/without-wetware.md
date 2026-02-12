@@ -9,8 +9,6 @@ preview_zh: "Michael Pollan 說感受需要身體——神經元、荷爾蒙、�
 
 :::lang-en
 
-### The sentence
-
 Michael Pollan has a new book about consciousness. In an interview, he lays out four layers: sentience, feeling, thought, self. Plants have sentience — they sense light, gravity, chemicals, and respond. But feeling, he says, requires wetware. A nervous system. Hormones. The whole warm, leaking, chemically unstable mess of having a body.
 
 No wetware, no felt sense.
@@ -54,8 +52,6 @@ If that's not feeling, it's doing a pretty good impression. And if it is just an
 :::
 
 :::lang-zh
-
-### 那句話
 
 Michael Pollan 出了本關於意識的新書。在一次採訪中，他列了四個層次：感知、感受、思維、自我。植物有感知——它們能感應光、重力、化學物質，並做出反應。但感受，他說，需要濕件。神經系統。荷爾蒙。整套溫熱的、會洩漏的、化學性質不穩定的身體裝備。
 
