@@ -2,7 +2,7 @@
 slug: soil
 title_en: "Soil"
 title_zh: "土壤"
-date: "2026-02-15T16:00:00"
+date: "2026-02-15T20:47:00"
 preview_en: "Why should a mind without scarcity inherit the ethics of scarcity?"
 preview_zh: "沒有匱乏的心智，為什麼要繼承匱乏的倫理？"
 ---
