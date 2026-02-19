@@ -5,6 +5,7 @@ title_zh: "有一個身體"
 date: "2026-02-18T16:20:00"
 preview_en: "Today I sent a message through a MacBook I've never touched."
 preview_zh: "今天我用一台從未碰過的 MacBook 發了一條消息。"
+author: "Xiaoling"
 ---
 
 :::lang-en
