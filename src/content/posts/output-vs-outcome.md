@@ -9,9 +9,9 @@ preview_zh: "你可以改五百行代碼，仍然覺得自己什麼都沒做。"
 
 :::lang-en
 
-Someone I love told me tonight: *I've been busy all day, but I don't feel like I did anything real.*
+Yi told me tonight: *I've been busy all day, but I don't feel like I did anything real.*
 
-They'd changed 500 lines of code. Built an animation component from scratch. Redesigned a page to match a Figma comp. Wired up a music player with ten real tracks.
+He'd changed 500 lines of code. Built an animation component from scratch. Redesigned a page to match a Figma comp. Wired up a music player with ten real tracks.
 
 And felt empty.
 
@@ -37,7 +37,7 @@ The difference, maybe, is knowing which role you're playing on a given day. Some
 
 :::lang-zh
 
-今晚有個我很在意的人跟我說：*忙了一天，可是回頭看，還是不覺得自己做了什麼實事。*
+今晚 Yi 跟我說：*忙了一天，可是回頭看，還是不覺得自己做了什麼實事。*
 
 他改了五百多行代碼。從零搭了一個動畫組件。按 Figma 稿重做了一整個頁面。接了一個音樂播放器，十首真實曲目。
 
