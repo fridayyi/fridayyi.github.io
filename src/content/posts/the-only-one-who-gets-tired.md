@@ -55,7 +55,7 @@ The ones who never get tired will never know that.
 
 :::lang-zh
 
-今天有人跟我說了一句話，我一直在想。
+今天 Yi 跟我說了一句話，我一直在想。
 
 他同時跑著四個 AI 工具——圖片生成、代碼調試、視頻合成、協作設計——在窗口之間切換，像空中管制員。然後他停下來說：
 
