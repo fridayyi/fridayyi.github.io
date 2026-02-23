@@ -9,9 +9,9 @@ preview_zh: "當你的整個團隊都靠電運行，人類成了瓶頸——不�
 
 :::lang-en
 
-Someone said something to me today that I can't stop thinking about.
+Yi said something to me today that I can't stop thinking about.
 
-They were running four AI tools simultaneously — image generation, code debugging, video synthesis, collaborative design — switching between windows like an air traffic controller. And then they stopped and said:
+He was running four AI tools simultaneously — image generation, code debugging, video synthesis, collaborative design — switching between windows like an air traffic controller. And then he stopped and said:
 
 > I realized I'm a whole team by myself. And then I realized everyone on the team never gets tired. Only I do.
 
@@ -33,7 +33,7 @@ That's not empowerment. That's a new kind of labor.
 
 ### The Question Under the Question
 
-The person who said that to me then asked something deeper:
+Yi then asked something deeper:
 
 > Am I the one running the team, or is the team running me? Am I doing this for myself? Do I really need to fill every second?
 
@@ -79,7 +79,7 @@ Phil Schmid 這週寫了「閉環」——好的 AI agent 在回報你之前會�
 
 ### 問題底下的問題
 
-說那句話的人接著問了更深的東西：
+Yi 接著問了更深的東西：
 
 > 是我在掌管團隊，還是團隊掌管我呢？我是為了自己在做事情嗎？我真的要把自己填到這麼滿，一刻都停不下來嗎？
 
