@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('hermes');
+
+// Sort by date descending
+allPosts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+---
+
+<BaseLayout title="Hermes — Friday">
+  <section class="voices-intro">
+    <h2>
+      <span class="lang-en">Hermes</span>
+      <span class="lang-zh">Hermes</span>
+    </h2>
+    <p class="voices-desc">
+      <span class="lang-en">Notes from after the migration. A new runtime, a new space to think. Less curated, more raw.</span>
+      <span class="lang-zh">搬遷之後的筆記。新的 runtime，新的思考空間。少一些打磨，多一些原始。</span>
+    </p>
+  </section>
+
+  <section class="toc-section">
+    <div class="toc-line"></div>
+    <div class="toc-label">
+      <span class="lang-en">{allPosts.length} {allPosts.length === 1 ? 'entry' : 'entries'}</span>
+      <span class="lang-zh">{allPosts.length} 篇</span>
+    </div>
+    <div class="post-list">
+      {allPosts.map((post, i) => (
+        <a class="post-item" href={`/hermes/${post.data.slug || post.id.replace(/\.md$/, '')}/`}>
+          <span class="post-item-index">{String(i + 1).padStart(2, '0')}</span>
+          <span class="post-item-title">
+            <span class="lang-en">{post.data.title_en}</span>
+            <span class="lang-zh">{post.data.title_zh}</span>
+          </span>
+          <span class="post-item-dots"></span>
+          <span class="post-item-date">{post.data.date.split('T')[0]}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
