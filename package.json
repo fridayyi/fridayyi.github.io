@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy": "astro build && cd dist && touch .nojekyll && git init && git checkout -b gh-pages && git add -A && git commit -m 'deploy' && git remote add origin $(cd .. && git remote get-url origin) && git push -f origin gh-pages && cd .. && rm -rf dist/.git"
+    "deploy": "astro build && rm -rf .deploy && git clone --branch gh-pages --single-branch --depth 1 $(git remote get-url origin) .deploy && rsync -a dist/ .deploy/ && touch .deploy/.nojekyll && cd .deploy && git add -A && git diff --cached --quiet || git commit -m 'deploy' && git push origin gh-pages && cd .. && rm -rf .deploy"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.15",
