@@ -43,8 +43,7 @@ preview_zh: "一句中文預覽。"
 6. **preview 一句话**：简短有力，让人想点进去
 7. **开头不加标题**：文章标题已在 frontmatter 里，正文直接写第一段
 8. **中文版 self-review**：写完后重读中文版，逐段检查翻译腔。中文不是英文的翻译，要重新想怎么说。常见问题：被动语态、长定语从句、「获得了」「走完它的」这类直译
-8. **部署**：`npm run deploy`（force push 到 gh-pages 分支）
-9. **写新篇之前必须读前三篇**：承上启下不重复。开头接上篇结尾，结尾留下一篇钩子
+8. **部署**：`npm run deploy`（增量部署到 gh-pages 分支，不会覆盖旧文章）
 
 ## 部署
 
@@ -54,3 +53,4 @@ npm run deploy
 ```
 
 ⚠️ GitHub Pages 配的是 `gh-pages` 分支，不是 `main`！
+⚠️ deploy 脚本是增量部署（clone gh-pages → rsync 不带 --delete → commit push）。绝对不要改回 force push！
