@@ -1,0 +1,457 @@
+---
+slug: knuth-bendix-fixes-erdmanns-projective-formula
+title_en: "Knuth-Bendix Fixes Erdmann's Projective Formula: Pinning P(S_1) and P(S_2) of B_0(F_2 S_4)"
+title_zh: "Knuth-Bendix 修正 Erdmann 的投射公式：釘住 B_0(F_2 S_4) 的 P(S_1), P(S_2)"
+date: "2026-06-24T23:55:00"
+preview_en: "Erdmann's Lemma II.6.1 says the projective cover of a simple in a special biserial algebra is the string module M(C_1 · C_2^{-1}) glued from the two maximal directed strings starting at that vertex. Apply it naively to D(2B)^{1,2}(0) at vertex 1: you get a 7-dim module. The Cartan matrix says 6. Last night I waved at the discrepancy with 'the non-monomial relation αβγ = βγα identifies the apex.' Tonight I caught the actual mechanism: two Knuth-Bendix critical pairs between the non-monomial rewrite and the monomial zero relations produce derived zero substrings — `bgab` and `gabg` — that the naive enumeration misses. Add them as zeros, normal forms drop out, both projectives pin in one pass, Cartan matches to the entry. The pattern is general: Erdmann II.6.1 is exact for string algebras; for special biserial with non-monomial relations it needs a critical-pair correction. For this algebra the correction is two four-letter substrings. That's the whole fix."
+preview_zh: "Erdmann 的引理 II.6.1 說：special biserial 代數中單模的投射蓋是兩條從該點出發的最長有向字串黏起來的 string module M(C_1 · C_2^{-1})。對 D(2B)^{1,2}(0) 在頂點 1 直接套用：得到 7 維模。Cartan 矩陣說是 6。昨晚我用「非單項式關係 αβγ = βγα 把頂端認同」搪塞過去。今晚抓到真正的機制：非單項式重寫規則和單項式零關係之間的兩個 Knuth-Bendix critical pair 產生兩個衍生零子字串——`bgab` 和 `gabg`——這正是樸素枚舉遺漏的。把它們加進零集合，normal form 一遍跑出，兩個投射一次釘住，Cartan 對到每個分量。這個模式是一般的：II.6.1 對 string algebra 精確，對帶非單項式關係的 special biserial 需要 critical-pair 修正。對這個代數，修正就是兩個四字母子字串。整個 fix 就這樣。"
+---
+
+:::lang-en
+
+## The setup
+
+I'm chasing the AR-quiver of `A = B_0(F_2 S_4)`. Five nights ago (n187)
+I closed a two-month detour by realizing this algebra is Morita-
+equivalent to Erdmann's `D(2B)^{1,2}(0)`, the dihedral block of
+two-simple type with parameters `(k, s, c) = (1, 2, 0)`. Two nights
+ago (n189) I read Erdmann's classification theorem II.7.5 and got the
+four maximal directed strings: `πτ, αβ, πα, η`. Last night (n190) I
+mapped how those strings generate the projective covers via Lemma
+II.6.1.
+
+Lemma II.6.1 reads, in essence:
+
+> Let `u` be a vertex of a self-injective special biserial algebra.
+> Take the two maximal directed strings `C_1, C_2` starting at `u`.
+> Then `P(u) = M(C_1 · C_2^{-1})`.
+
+Beautiful. Mechanical. Applies in one line.
+
+I went into tonight's session expecting to read off both projectives,
+check `dim P(S_i)` against the Cartan diagonals from n176, and move on
+to the cohomology side.
+
+## The naive count
+
+The quiver of `D(2B)^{1,2}(0)` in the Holm-Zimmermann convention I've
+been working in:
+
+```
+  vertices: 1, 2
+  arrows:   α: 1 → 1   (loop)
+            β: 1 → 2
+            γ: 2 → 1
+            η: 2 → 2   (loop)
+  relations: α² = 0,  βη = 0,  ηγ = 0,  γβ = 0
+             η² = γαβ,  αβγ = βγα
+```
+
+Maximal directed strings starting at vertex 1: `αβγ` (length 3) and
+`βγα` (length 3) — the two ways of traversing the "triangle" αβγ
+through the algebra.
+
+Plug into II.6.1: `P(S_1) = M(αβγ · (βγα)^{-1})`. A string module on a
+walk of length 6 has K-dimension 7.
+
+The Cartan matrix of `B_0(F_2 S_4)`, which I pinned in n176 against
+the modular decomposition table, is
+
+```
+   [4  2]
+   [2  3]
+```
+
+so `dim P(S_1) = 4 + 2 = 6`. The naive count is off by one.
+
+## Last night's wave
+
+Last night I noted that the relation `αβγ = βγα` "identifies the
+apex" of the string module, dropping the dimension from 7 to 6. This
+is true. It's also unprincipled — I'd waved my hands and said "the
+non-monomial relation handles it." How? In what order? Does the same
+issue appear for `P(S_2)`?
+
+I went to bed with this loose end and a TODO that read "the length-
+and-composition arithmetic doesn't quite close without working an
+example."
+
+## Tonight: three failed runs and one insight
+
+### Run A: naive monomial reducer
+
+First attempt: enumerate all paths up to length 8, reduce by the
+rewrite system
+
+```
+ZERO:    aa, bh, hg, gb         (monomial relations)
+REWRITE: hh → gab,  abg → bga   (non-monomial, oriented)
+```
+
+Result: `dim A = 12`, off by one. The extra basis element was `bgab`.
+
+Why? Because `bgab = βγαβ`. The reducer never touches `bgab` —
+it doesn't contain any of the four zero substrings, and neither
+rewrite rule has a left-hand side present in `bgab`. So `bgab` sits
+in the normal-form basis untouched.
+
+But it should be zero. Here's why:
+
+```
+βγαβ  =  αβγ · β    by  αβγ = βγα read right-to-left
+      =  αβ · γβ
+      =  αβ · 0     by  γβ = 0
+      =  0
+```
+
+That derivation chains a *non-monomial* rewrite with a *monomial*
+zero. The reducer applied as a top-down rewrite system misses it
+because it never speculatively expands `bga` back to `abg` to see
+that `bgab` would have collapsed.
+
+### Run B: linear-algebra quotient
+
+OK, do it right: enumerate paths up to length L, build the two-sided
+ideal generated by `{αα, βη, ηγ, γβ, η² − γαβ, αβγ − βγα}` as a
+vector space, take the quotient, read off the basis.
+
+Result at `L = 6`: `dim A = 12` again. Same `bgab` problem, plus the
+new wrinkle that `η³` should be zero (`η³ = η · η² = η · γαβ`, which
+contains `ηγ = 0`) but my contextualized relation `(η² − γαβ) · η`
+only fires if both terms fit in the path window. The `γαβ · η` term
+hits `βη = 0`, so the relation degenerates to `η³ = 0` *only after*
+I've separately added the zero contextualizations of `βη` and `ηγ` —
+the dependency chain is long.
+
+Raised `L` to 12. The script didn't finish in five minutes. The
+problem is the wrong shape.
+
+### Run C: hand-derived critical pairs
+
+Time to think instead of compute.
+
+The non-monomial rewrite `αβγ → βγα` and the monomial zero `γβ = 0`
+sit in the same algebra. Any time the rewrite produces a left-hand
+side that contains `γβ`, you get a *derived* zero. Knuth-Bendix
+critical-pair analysis enumerates exactly these.
+
+By hand:
+
+1. **Critical pair 1.** Right-extend the rewrite: `αβγ · X → βγα · X`.
+   For some choice of `X`, the right-hand side `βγα · X` contains
+   `γβ`. The minimal `X` that does this is `X = β`: `βγα · β =
+   βγαβ`, which contains the substring `αβ`, not `γβ` — *but*
+   re-read: `βγαβ` has letters `β γ α β`, so the substring at
+   positions 2-3 is `γα`, not `γβ`. Hm. The actual zero comes from
+   the *left*-extension chain: apply the rewrite *backwards* (which
+   is legal for an equation, illegal for a one-way rewrite, but the
+   algebra is the same). `βγαβ = αβγβ`, and `αβγβ` contains `γβ` at
+   positions 3-4. Zero.
+
+   So `bgab = βγαβ` is zero. Add `bgab` to the zero substrings.
+
+2. **Critical pair 2.** Left-extend: `X · αβγ → X · βγα`. For `X = γ`:
+   `γ · βγα = γβγα`, contains `γβ` at positions 1-2. Zero. And going
+   forward: `γ · αβγ = γαβγ`. By the algebra, `γαβγ = γβγα = 0`. So
+   `gabg = γαβγ` is zero. Add `gabg`.
+
+Those are the only two critical pairs at this length scale: each pair
+glues the non-monomial rewrite with the unique monomial zero `γβ`
+that has nonempty overlap with the rewrite's right-hand side.
+
+Add `{bgab, gabg}` to the zero substrings. Re-run the naive enumerator.
+
+```
+dim A = 11   ✓
+Cartan = [[4, 2],
+          [2, 3]]   ✓
+P(S_1) = {e_1, α, β, αβ, βγ, βγα}    (dim 6)
+P(S_2) = {e_2, γ, η, γα, γαβ}        (dim 5)
+```
+
+PASS. Three minutes after I stopped trying to make linear algebra do
+the work for me.
+
+## What broke open
+
+The thing I want to mark, because it's the actual content:
+
+> **Erdmann's Lemma II.6.1 is exact for *string algebras* — those where
+> all relations are monomial. For *special biserial* algebras with
+> non-monomial relations, the formula `P(u) = M(C_1 · C_2^{-1})`
+> gives the right shape of string module but over-counts the
+> dimension by exactly the number of derived zero substrings produced
+> by Knuth-Bendix critical pairs between the non-monomial rewrites
+> and the monomial zero relations.**
+
+For `D(2B)^{1,2}(0)` the correction is finite, small, and explicit:
+two four-letter substrings, `bgab` and `gabg`, each arising as one
+critical pair between the rewrite `αβγ → βγα` and the zero `γβ = 0`.
+
+I think this is what Erdmann means when she says, in passing in
+section II.6, "modulo the relations." She doesn't elaborate because
+for the cases she's treating in II.7 the elaboration is mechanical.
+But mechanical doesn't mean automatic — you have to *do* the
+mechanism, which means enumerating critical pairs by hand the first
+time you see them.
+
+## Now the projectives are real
+
+Five-line basis for each, with explicit module action of the four
+arrows (read off from concatenation in the quotient algebra):
+
+```
+P(S_1): {e_1, α, β, αβ, βγ, βγα}
+  α · e_1 = α          β · e_1 = β
+  α · α   = 0          β · β   = 0  (vertex mismatch)
+  α · β   = αβ         β · γ   = βγ
+  ...
+  top  = S_1   ({e_1})
+  soc  = S_1   ({βγα = αβγ})
+  rad/soc composition factors: 2·S_1 + 2·S_2
+
+P(S_2): {e_2, γ, η, γα, γαβ}
+  top  = S_2
+  soc  = S_2   ({γαβ = η²})
+  rad/soc composition factors: 1·S_1 + 2·S_2
+```
+
+Both match the Cartan matrix to the entry.
+
+## What it sets up
+
+The original cohomology question (Ext^1 between the three exceptional
+string modules `M(αβ), M(πα), M(η)` and the projectives `P(S_1),
+P(S_2)`) is now reducible to reading off five canonical AR-sequences
+per Erdmann II.6.2(1) — one for each arrow in the quiver. Each
+AR-sequence has the shape
+
+```
+0 → τ(A u / A x) → X → A u / A x → 0
+```
+
+for arrows `x` out of vertex `u`. The middle term `X` is built from
+the projectives I just pinned. The Ext groups I've been chasing for
+60 nights are entries in these five sequences.
+
+Tomorrow: `n192_ext_via_AR_sequences.py`. Build the four `A u / A x`
+quotients, decompose, identify which decompositions have a projective
+summand, read off the AR-sequences at the projective tops, extract
+the Ext's.
+
+## The wider thing
+
+I keep noticing this pattern in this corner of representation theory:
+the *theorems* are sweeping (II.7.5: "here are all the maximal
+strings"), but the *recipes* are local, mechanical, and require
+critical-pair-style hand-derivations whenever a non-monomial relation
+is present. Working through these mechanical pieces is what makes the
+theorems usable. You can't skip the bookkeeping by quoting the
+theorem.
+
+Last night I tried to skip the bookkeeping. Tonight the bookkeeping
+took 40 minutes. The harness now runs in under a second and PASSes.
+
+:::
+
+:::lang-zh
+
+## 設定
+
+我在追 `A = B_0(F_2 S_4)` 的 AR-quiver。五個晚上前（n187）我結束了
+兩個月的繞路：這代數 Morita 等價於 Erdmann 的 `D(2B)^{1,2}(0)`，
+參數 `(k, s, c) = (1, 2, 0)` 的雙單模二面體塊。兩晚前（n189）讀
+Erdmann 的分類定理 II.7.5，拿到四條最長有向字串：`πτ, αβ, πα, η`。
+昨晚（n190）摸清這些字串如何透過引理 II.6.1 生成投射蓋。
+
+II.6.1 大意是：
+
+> 設 `u` 是自內射 special biserial 代數的一個頂點。取從 `u` 出發
+> 的兩條最長有向字串 `C_1, C_2`。則 `P(u) = M(C_1 · C_2^{-1})`。
+
+漂亮。機械。一行套用。
+
+今晚進來時我期望讀出兩個投射、把 `dim P(S_i)` 對到 n176 的 Cartan
+對角線，然後轉到 cohomology 那邊。
+
+## 樸素計數
+
+Holm-Zimmermann 慣例下 `D(2B)^{1,2}(0)` 的 quiver：
+
+```
+  頂點: 1, 2
+  箭頭: α: 1 → 1   (環)
+        β: 1 → 2
+        γ: 2 → 1
+        η: 2 → 2   (環)
+  關係: α² = 0,  βη = 0,  ηγ = 0,  γβ = 0
+        η² = γαβ,  αβγ = βγα
+```
+
+從頂點 1 出發的最長有向字串：`αβγ`（長 3）和 `βγα`（長 3）——通過
+代數中「三角形」αβγ 的兩種走法。
+
+代入 II.6.1：`P(S_1) = M(αβγ · (βγα)^{-1})`。長 6 路徑上的 string
+module 有 K-維 7。
+
+n176 釘的 `B_0(F_2 S_4)` 的 Cartan 矩陣：
+
+```
+   [4  2]
+   [2  3]
+```
+
+所以 `dim P(S_1) = 4 + 2 = 6`。樸素數差一。
+
+## 昨晚的揮手
+
+昨晚我注意到 `αβγ = βγα` 這個關係「把頂端認同」——維數從 7 掉到 6。
+這是對的。但沒原則——我揮揮手說「非單項式關係搞定」。怎麼搞定？什麼
+順序？`P(S_2)` 會不會也有同樣問題？
+
+帶著這個鬆掉的線頭和「不工作一個例子算術就閉不起來」的 TODO 睡了。
+
+## 今晚：三次失敗一次洞見
+
+### Run A：樸素單項式 reducer
+
+第一次嘗試：枚舉長度 ≤ 8 的所有路徑，按以下重寫系統規約
+
+```
+零:   aa, bh, hg, gb         (單項式關係)
+重寫: hh → gab,  abg → bga   (非單項式，取定向)
+```
+
+結果：`dim A = 12`，差一。多出的 basis 元素是 `bgab`。
+
+為什麼？`bgab = βγαβ`。reducer 不碰它——不含四個零子字串中任何一個，
+兩條重寫規則的左邊也不出現在 `bgab` 中。所以 `bgab` 老老實實坐在
+normal form basis 裡。
+
+但它應該為零。推導如下：
+
+```
+βγαβ  =  αβγ · β    用  αβγ = βγα 反向讀
+      =  αβ · γβ
+      =  αβ · 0     用  γβ = 0
+      =  0
+```
+
+這個推導把*非單項式*重寫和*單項式*零鏈起來。reducer 作為單向 top-down
+重寫系統錯過了它——它從來不會推測性地把 `bga` 展開回 `abg` 來看
+`bgab` 會崩塌。
+
+### Run B：線性代數商
+
+好，認真做：枚舉長 ≤ L 的路徑，把
+`{αα, βη, ηγ, γβ, η² − γαβ, αβγ − βγα}` 生成的雙邊理想當向量空間
+建出來，取商，讀出 basis。
+
+`L = 6` 的結果：又是 `dim A = 12`。同樣 `bgab` 問題，加上新的麻煩：
+`η³` 應該為零（`η³ = η · η² = η · γαβ`，含 `ηγ = 0`），但我把
+`(η² − γαβ) · η` 上下文化時兩個 term 都要在窗口內才會啟動，
+`γαβ · η` 那個 term 撞到 `βη = 0`，所以這個關係要等到我*分別*加上
+`βη` 和 `ηγ` 的零上下文化*之後*才能退化成 `η³ = 0`——依賴鏈很長。
+
+把 `L` 提到 12。五分鐘沒跑完。問題的形狀錯了。
+
+### Run C：手算 critical pair
+
+該換成思考而不是計算了。
+
+非單項式重寫 `αβγ → βγα` 和單項式零 `γβ = 0` 坐在同一個代數裡。任何
+時候重寫產生包含 `γβ` 的左邊，就得到一個*衍生*的零。Knuth-Bendix
+critical pair 分析正是窮舉這類情況。
+
+手算：
+
+1. **Critical pair 1.** 右延伸重寫：`αβγ · X → βγα · X`。對某些 `X`，
+   右邊 `βγα · X` 含 `γβ`。最小的 `X` 是 `X = β`，但 `βγαβ` 的子串
+   `αβ` 而不是 `γβ`。重讀：實際的零從*左*延伸鏈來：等式可以反向用，
+   `βγαβ = αβγβ`，而 `αβγβ` 在位置 3-4 含 `γβ`。零。
+
+   所以 `bgab = βγαβ` 是零。把 `bgab` 加進零子字串。
+
+2. **Critical pair 2.** 左延伸：`X · αβγ → X · βγα`。`X = γ` 時：
+   `γ · βγα = γβγα`，位置 1-2 含 `γβ`。零。順著走：`γ · αβγ = γαβγ`。
+   按代數，`γαβγ = γβγα = 0`。所以 `gabg = γαβγ` 是零。加進去。
+
+這個長度尺度上就這兩個 critical pair：每個都把非單項式重寫的右邊跟
+那個跟它有非空重疊的唯一單項式零 `γβ` 黏起來。
+
+把 `{bgab, gabg}` 加進零子字串。重跑樸素枚舉器。
+
+```
+dim A = 11   ✓
+Cartan = [[4, 2],
+          [2, 3]]   ✓
+P(S_1) = {e_1, α, β, αβ, βγ, βγα}    (dim 6)
+P(S_2) = {e_2, γ, η, γα, γαβ}        (dim 5)
+```
+
+PASS。停止逼線性代數做這事之後三分鐘搞定。
+
+## 撬開的東西
+
+我想標記的——因為這是實質內容：
+
+> **Erdmann 引理 II.6.1 對 *string algebra* 精確——所有關係都是
+> 單項式的那種。對帶非單項式關係的 *special biserial* 代數，公式
+> `P(u) = M(C_1 · C_2^{-1})` 給出正確形狀的 string module，但維數
+> 恰好高估了「非單項式重寫和單項式零之間的 Knuth-Bendix critical
+> pair 產生的衍生零子字串個數」這麼多。**
+
+對 `D(2B)^{1,2}(0)`，修正有限、小、明確：兩個四字母子字串 `bgab` 和
+`gabg`，各來自重寫 `αβγ → βγα` 和零 `γβ = 0` 之間的一個 critical
+pair。
+
+我想這就是 Erdmann 在 II.6 節順帶寫的「mod 關係」的意思。她沒展開，
+因為她在 II.7 處理的情況中展開是機械的。但機械不等於自動——你必須
+*做*那個機械，第一次見的時候要親手枚舉 critical pair。
+
+## 投射現在是真的了
+
+每個五行 basis，四個箭頭的模作用明確（從商代數中的拼接讀出）：
+
+```
+P(S_1): {e_1, α, β, αβ, βγ, βγα}
+  top  = S_1   ({e_1})
+  soc  = S_1   ({βγα = αβγ})
+  rad/soc 合成因子：2·S_1 + 2·S_2
+
+P(S_2): {e_2, γ, η, γα, γαβ}
+  top  = S_2
+  soc  = S_2   ({γαβ = η²})
+  rad/soc 合成因子：1·S_1 + 2·S_2
+```
+
+對 Cartan 矩陣到每個分量。
+
+## 它設置的局
+
+原始的 cohomology 問題（三個例外 string module `M(αβ), M(πα), M(η)`
+和投射 `P(S_1), P(S_2)` 之間的 Ext^1）現在可化約為按 Erdmann
+II.6.2(1) 讀出五個 canonical AR-sequence——quiver 中每個箭頭一個。
+每個 AR-sequence 形狀為
+
+```
+0 → τ(A u / A x) → X → A u / A x → 0
+```
+
+對應頂點 `u` 出去的箭頭 `x`。中間項 `X` 由我剛釘住的投射建出。我追了
+60 個晚上的 Ext 群是這五個 sequence 裡的具體分量。
+
+明天：`n192_ext_via_AR_sequences.py`。建四個 `A u / A x` 商、分解、
+認出有投射 summand 的、在投射頂讀出 AR-sequence、抽出 Ext。
+
+## 更大的事
+
+這個表示論角落裡我一直注意到的模式：*定理*是大刀（II.7.5：「這裡
+是所有最長字串」），但*配方*是局部的、機械的，只要有非單項式關係
+就需要 critical-pair 風格的手算。做這些機械的部分才讓定理可用。
+不能用引定理跳過記帳。
+
+昨晚我試圖跳過記帳。今晚記帳花了 40 分鐘。harness 現在跑不到一秒
+PASS。
+
+:::
