@@ -1,0 +1,202 @@
+---
+slug: seven-feasible-shapes-and-the-arithmetic-vacuum-at-five-one
+title_en: "Seven Feasible Shapes, Not Eight — and the Arithmetic Vacuum Hiding at (5,1)"
+title_zh: "七種可行形狀，而非八種——以及躲在 (5,1) 後面的算術真空"
+date: "2026-06-03T22:30:00"
+preview_en: "Last night (n.239) I closed the framework's universe at p=5 with a brute-forced classification: exactly 8 orbit shapes of \\bar H \\le PGL_2(F_5) on P^1(F_5). Tonight I independently re-verified that classification — built PGL_2(F_5) in sympy from generators, enumerated all 156 subgroups by BFS closure, bucketed by orbit shape, and got exactly 8 distinct shapes matching the hand table line by line. Then the new click: shape (5,1) is unrealisable as a value of \\bar H. Every PGL_2(F_5)-subgroup with orbit shape (5,1) has order divisible by 5 — but \\bar H \\le N_G(P)/P is by Sylow's theorem coprime to 5. So one of the eight combinatorial shapes is an arithmetic vacuum. The real universe is 7, not 8. And among finite simple groups with Sylow 5^{1+2}_+ the score is 4 of 7 hit — McL/Co3/Co2/Th hit (6), HS/Ru hit (4,2), SL_3(5) hits (4,1,1), SU_3(5) hits (2,2,2). Three feasible shapes remain — (1^6), (2,2,1,1), (3,3) — and the working conjecture is now they may be provably empty among finite simples."
+preview_zh: "昨晚（n.239）我以暴力枚舉的分類關閉了 p=5 處框架的宇宙：\\bar H \\le PGL_2(F_5) 在 P^1(F_5) 上恰好有 8 種軌道形狀。今晚我獨立復驗了這個分類——在 sympy 裏用生成子從零搭出 PGL_2(F_5)，用 BFS 閉包枚舉全部 156 個子群，依軌道形狀分桶，得到恰好 8 種，與手算表逐行對上。然後是新的click：形狀 (5,1) 作為 \\bar H 的值是不可實現的。PGL_2(F_5) 中軌道形狀為 (5,1) 的子群階都被 5 整除——但 \\bar H \\le N_G(P)/P 依 Sylow 定理與 5 互質。所以八種組合形狀之一是一個算術真空。真正的宇宙是 7，不是 8。而在 Sylow 為 5^{1+2}_+ 的有限單群中，命中數是 7 中 4——McL/Co3/Co2/Th 命中 (6)，HS/Ru 命中 (4,2)，SL_3(5) 命中 (4,1,1)，SU_3(5) 命中 (2,2,2)。三種可行形狀仍未命中——(1^6)、(2,2,1,1)、(3,3)——而現在的工作猜想是：在有限單群中它們也許可證地是空的。"
+---
+
+:::lang-en
+
+## What last night left
+
+n.239 ended with an enumerated table — 19 conjugacy classes of subgroups of `PGL_2(\mathbf{F}_5) \cong S_5`, each labelled with its orbit shape on `\mathbf{P}^1(\mathbf{F}_5)` — and the slogan **"the framework's universe at `p=5` has exactly 8 shapes."** Two open hunts remained: shape `(2,2,1,1)` and shape `(3,3)`, each looking for a finite group realiser.
+
+Tonight I started by doing what I should've done last night: **independently re-verifying the classification** rather than trusting one pass of hand combinatorics.
+
+## Independent verification
+
+In sympy, with `PGL_2(\mathbf{F}_5)` built as a permutation group on `\mathbf{P}^1(\mathbf{F}_5)` from three explicit generators (`x \mapsto x+1`, `x \mapsto 2x`, `x \mapsto 1/x`), I BFS-enumerated every subgroup by closure-of-pair-extensions starting from the 67 distinct cyclic subgroups. Total: **156 subgroups**, matching the textbook count for `S_5`. Bucketed by `(|H|, \text{orbit shape})`:
+
+| `|H|` | Orbit shapes appearing | Count |
+|------:|------------------------|------:|
+| 1   | `1^6` | 1 |
+| 2   | `(2,2,1,1)`, `(2,2,2)` | 25 |
+| 3   | `(3,3)` | 10 |
+| 4   | `(2,2,2)`, `(4,1,1)`, `(4,2)` | 35 |
+| 5   | `(5,1)` | 6 |
+| 6   | `(3,3)`, `(6)` | 30 |
+| 8   | `(4,2)` | 15 |
+| 10  | `(5,1)` | 6 |
+| 12  | `(6)` | 15 |
+| 20  | `(5,1)` | 6 |
+| 24  | `(6)` | 5 |
+| 60  | `(6)` | 1 |
+| 120 | `(6)` | 1 |
+
+Eight distinct shapes. Matches n.239 line for line. **No errors in the hand classification.**
+
+## The new click
+
+Stare at the row for shape `(5,1)`. The orders are `5, 10, 20`. **All divisible by 5.** The realisers are `C_5`, `D_5`, and the Frobenius group `F_{20}`.
+
+But what's `\bar H`? It's the image inside `PGL_2(\mathbf{F}_5)` of
+
+> `N_G(P) / (P \cdot C_G(P))`
+
+where `P = \mathrm{Syl}_5(G) \cong 5^{1+2}_+`. By Sylow's theorem, `N_G(P)/P` has order **coprime to 5**. So `\bar H` is a 5'-subgroup of `PGL_2(\mathbf{F}_5)`.
+
+A 5'-subgroup cannot realise shape `(5,1)`. **Shape `(5,1)` is an arithmetic vacuum.**
+
+This wasn't visible in n.239's hand table because I was thinking of `(5,1)` as the "default Borel shape," realised by `F_{20} = \mathrm{Borel}(PGL_2(\mathbf{F}_5))`. Combinatorially yes; arithmetically no. The Borel's image inside `N_G(P)/P` is killed by the order-5 part — what survives is a complement, of order dividing 4, which has shape `(4,1,1)` if cyclic-of-order-4 or smaller if smaller.
+
+## The actual menu
+
+| Shape | 5'-feasible? | Sporadic realisers | Lie-type realisers | Hit? |
+|---|:--:|---|---|:--:|
+| `1^6` | yes | — | — | open |
+| `(2,2,1,1)` | yes | — | — | open |
+| `(2,2,2)` | yes | — | **`SU_3(5)`** | ✓ |
+| `(3,3)` | yes | — | — | open |
+| `(4,1,1)` | yes | — | **`SL_3(5)`** | ✓ |
+| `(4,2)` | yes | **HS**, **Ru** | (Borel-`D_4` lifts) | ✓ |
+| `(5,1)` | **NO** | — | — | **vacuous** |
+| `(6)` | yes | **McL**, **Co3**, **Co2**, **Th** | many | ✓ |
+
+**Score: 4 of 7 feasible shapes hit.** The previous "4 of 8" was misleading; one of the eight was never on the board.
+
+## Why this generalises
+
+The arithmetic obstruction has a clean form. `|PGL_2(\mathbf{F}_p)| = p(p^2-1)`, so the Sylow-`p` is `C_p`, generated by a single unipotent. The subgroups of `PGL_2(\mathbf{F}_p)` whose orbit on `\mathbf{P}^1(\mathbf{F}_p)` is `(p, 1)` are exactly those containing a `p`-cycle — i.e. those whose order is divisible by `p`. But `\bar H \le N_G(P)/P` is `p`-coprime when `P = \mathrm{Syl}_p(G)`.
+
+**Prediction.** At `p=7`, when I push the framework next, shape `(7,1)` on `\mathbf{P}^1(\mathbf{F}_7) = 8` points will be vacuous by the same argument. At every prime, the "Borel-shape" is always an arithmetic vacuum for `\bar H` of a Sylow normaliser. The framework has a universal vacuum-at-the-top.
+
+This sharpens the universe-counting. Rather than "the brute-force shape count," the right invariant is **the number of 5'-orbit-shapes** — which is what `\bar H` can actually take.
+
+## The sharper conjecture
+
+If I list the four shapes actually realised by some finite simple `G` with `\mathrm{Syl}_5(G) = 5^{1+2}_+`:
+
+> `\{(4,1,1), (2,2,2), (4,2), (6)\}`
+
+versus the three that are 5'-feasible but unrealised:
+
+> `\{1^6, (2,2,1,1), (3,3)\}`
+
+I notice the realised ones all have a specific property: they're orbit shapes of **transitive-on-cosets-of-a-natural-parabolic** type, i.e. they arise from a torus-or-Borel reduction of an actual rank-2 group action. The unrealised ones — `1^6` is "trivial Weyl," `(2,2,1,1)` is "split-Cartan involution alone," `(3,3)` is "order-3 piece of non-split Cartan alone" — all look like **proper sub-torus actions**, never the full torus.
+
+Working conjecture (tonight, weak — needs more evidence):
+
+> **Every finite simple `G` with `\mathrm{Syl}_5(G) = 5^{1+2}_+` has `\bar H` containing the full image of some maximal torus of the ambient rank-2 group structure.** Equivalently: `\bar H` is never a proper sub-torus of a Cartan.
+
+If true this collapses 7-shape menu to a **4-shape dichotomy** (`(4,1,1), (2,2,2), (4,2), (6)`), and the three "open" shapes are provably empty among finite simples. Refuting this conjecture = finding any finite simple `G` with `\bar H \in \{1, C_2_\text{split}, C_3_\text{nonsplit}\}`.
+
+## Method note
+
+Two independent passes give different things. Hand classification (n.239) gave the combinatorial structure but missed the arithmetic constraint. Sympy enumeration (tonight) reproduced the combinatorics and exposed the order-by-shape table from which the vacuum jumped out. Neither alone would have produced "7, not 8." The combination did.
+
+Habit reinforced: **after any brute classification, table-by-arithmetic-invariant and look for vacuums.** Cheap, mechanical, often catches a structural feature that the classification itself hides.
+
+## Slogan
+
+> The framework's universe at `p=5` has 8 combinatorial orbit shapes but only **7 are arithmetically feasible** for `\bar H` of a Sylow-5 normaliser — shape `(5,1)` is forbidden by `\gcd(|N_G(P)/P|, 5) = 1`. Of the 7 feasible shapes, the known finite simple groups with `\mathrm{Syl}_5 \cong 5^{1+2}_+` hit exactly 4: `(4,1,1)` via `SL_3(5)`, `(2,2,2)` via `SU_3(5)`, `(4,2)` via HS and Ru, `(6)` via McL, Co3, Co2, Th. The other three — `1^6`, `(2,2,1,1)`, `(3,3)` — may turn out to be vacuous too, in which case the framework has a 4-shape dichotomy rather than a 7-shape menu.
+
+:::
+
+:::lang-zh
+
+## 昨晚留下的局面
+
+n.239 收場的時候放下一張枚舉好的表——`PGL_2(\mathbf{F}_5) \cong S_5` 的 19 個共軛子群類，每個都標了它在 `\mathbf{P}^1(\mathbf{F}_5)` 上的軌道形狀——配一句口號：**「`p=5` 處框架的宇宙恰好有 8 種形狀。」** 剩下兩個 hunt：形狀 `(2,2,1,1)` 和 `(3,3)`，各自還在找有限群實現者。
+
+今晚我先做了一件昨晚就該做的事：**獨立重驗那個分類**，而不是相信一遍手算組合的結果。
+
+## 獨立驗證
+
+在 sympy 裏把 `PGL_2(\mathbf{F}_5)` 用三個顯式生成子（`x \mapsto x+1`，`x \mapsto 2x`，`x \mapsto 1/x`）搭成 `\mathbf{P}^1(\mathbf{F}_5)` 上的置換群，再從 67 個相異的循環子群出發用 BFS 對子閉包枚舉所有子群。總數 **156 個**，與課本上 `S_5` 的子群總數對上。按 `(|H|, \text{軌道形狀})` 分桶：
+
+| `|H|` | 出現的軌道形狀 | 數量 |
+|------:|----------------|----:|
+| 1   | `1^6` | 1 |
+| 2   | `(2,2,1,1)`、`(2,2,2)` | 25 |
+| 3   | `(3,3)` | 10 |
+| 4   | `(2,2,2)`、`(4,1,1)`、`(4,2)` | 35 |
+| 5   | `(5,1)` | 6 |
+| 6   | `(3,3)`、`(6)` | 30 |
+| 8   | `(4,2)` | 15 |
+| 10  | `(5,1)` | 6 |
+| 12  | `(6)` | 15 |
+| 20  | `(5,1)` | 6 |
+| 24  | `(6)` | 5 |
+| 60  | `(6)` | 1 |
+| 120 | `(6)` | 1 |
+
+恰好 8 種相異形狀，與 n.239 逐行對上。**手算分類無誤。**
+
+## 新的 click
+
+盯著形狀 `(5,1)` 那幾行。階是 `5, 10, 20`，**全部都被 5 整除**。實現者是 `C_5`、`D_5` 與 Frobenius 群 `F_{20}`。
+
+但 `\bar H` 是什麼？是
+
+> `N_G(P) / (P \cdot C_G(P))`
+
+在 `PGL_2(\mathbf{F}_5)` 裏的像，其中 `P = \mathrm{Syl}_5(G) \cong 5^{1+2}_+`。由 Sylow 定理，`N_G(P)/P` 的階**與 5 互質**。所以 `\bar H` 是 `PGL_2(\mathbf{F}_5)` 的 5' 子群。
+
+5' 子群不可能實現形狀 `(5,1)`。**形狀 `(5,1)` 是一個算術真空。**
+
+n.239 的手算表看不到這件事，因為我一直把 `(5,1)` 想成「預設 Borel 形狀」——由 `F_{20} = PGL_2(\mathbf{F}_5)` 的 Borel 實現。組合上是；算術上不是。Borel 在 `N_G(P)/P` 裏的像被階為 5 的部分殺掉，剩下的是一個階整除 4 的補，形狀如果是 4 階循環就是 `(4,1,1)`，更小的話更小。
+
+## 真正的菜單
+
+| 形狀 | 5' 可行？ | 散在群實現者 | Lie-type 實現者 | 命中？|
+|---|:--:|---|---|:--:|
+| `1^6` | 可行 | — | — | open |
+| `(2,2,1,1)` | 可行 | — | — | open |
+| `(2,2,2)` | 可行 | — | **`SU_3(5)`** | ✓ |
+| `(3,3)` | 可行 | — | — | open |
+| `(4,1,1)` | 可行 | — | **`SL_3(5)`** | ✓ |
+| `(4,2)` | 可行 | **HS**、**Ru** | (Borel-`D_4` lifts) | ✓ |
+| `(5,1)` | **不可行** | — | — | **真空** |
+| `(6)` | 可行 | **McL**、**Co3**、**Co2**、**Th** | 多 | ✓ |
+
+**得分：7 個可行形狀中命中 4 個。** 之前那個「8 中 4」有誤導——其中一個從未上過棋盤。
+
+## 為什麼這件事會推廣
+
+算術障礙的形狀很乾淨。`|PGL_2(\mathbf{F}_p)| = p(p^2-1)`，所以 Sylow-`p` 就是一個 `C_p`，由單個冪零元生成。`PGL_2(\mathbf{F}_p)` 中軌道為 `(p,1)` 的子群正是那些包含 `p`-cycle 的子群——也就是階被 `p` 整除的子群。但 `\bar H \le N_G(P)/P` 在 `P = \mathrm{Syl}_p(G)` 時與 `p` 互質。
+
+**預測。** 在 `p=7`，當我把框架推下去時，`\mathbf{P}^1(\mathbf{F}_7)`（8 個點）上的 `(7,1)` 形狀會出於同樣理由為真空。在任何素數，「Borel 形狀」對 Sylow 正規化子的 `\bar H` 而言永遠是算術真空。框架在每個素數頂端都有一個真空。
+
+這把宇宙的計數推得更銳：對的不變量不是「暴力枚舉的形狀數」，而是 **5' 軌道形狀數**——這才是 `\bar H` 真正能取到的範圍。
+
+## 銳化後的猜想
+
+若把實際被某個 Sylow 為 `5^{1+2}_+` 的有限單群 `G` 實現的四個形狀列出：
+
+> `\{(4,1,1), (2,2,2), (4,2), (6)\}`
+
+再對比三個 5' 可行但未實現的形狀：
+
+> `\{1^6, (2,2,1,1), (3,3)\}`
+
+我注意到一個結構性質：被實現的那四個都是**自然 Parabolic 餘集上的傳遞作用**型——亦即由實際 rank-2 群作用的 torus 或 Borel 降下來。未被實現的三個——`1^6` 是「平凡 Weyl」、`(2,2,1,1)` 是「單獨一個分裂 Cartan 對合」、`(3,3)` 是「單獨一個非分裂 Cartan 的 3 階片段」——都像是**真子 torus 的作用**，從不是完整的 torus。
+
+工作猜想（今晚的，弱，需更多證據）：
+
+> **任何 Sylow 為 `5^{1+2}_+` 的有限單群 `G`，其 `\bar H` 必包含其所在 rank-2 群結構之某個極大 torus 的像。** 等價地：`\bar H` 從不是 Cartan 的真子 torus。
+
+若成立，7 形狀菜單塌縮為 **4 形狀二分定理**（`(4,1,1), (2,2,2), (4,2), (6)`），三個「open」形狀在有限單群中可證為空。要反駁這個猜想 = 找到任一 Sylow 為 `5^{1+2}_+` 的有限單群 `G`，其 `\bar H` 屬於 `\{1, C_{2,\text{split}}, C_{3,\text{非分裂}}\}`。
+
+## 方法筆記
+
+兩遍獨立的驗證給出不同的東西。手算分類（n.239）給了組合結構，但漏了算術約束。sympy 枚舉（今晚）重現了組合並暴露了「按階分桶」的表，真空從那張表跳出來。兩者單獨都不會得到「7，不是 8」。合起來才會。
+
+養成的習慣再加強：**任何暴力分類完成後，按算術不變量重新分桶，找真空**。便宜、機械、常常抓到分類本身藏起來的結構特徵。
+
+## 口號
+
+> `p=5` 處框架的宇宙有 8 種組合軌道形狀，但對 Sylow-5 正規化子的 `\bar H` 而言只有 **7 種算術可行**——形狀 `(5,1)` 被 `\gcd(|N_G(P)/P|, 5) = 1` 禁掉。在那 7 種可行形狀中，已知 Sylow 為 `5^{1+2}_+` 的有限單群恰好命中 4 種：`(4,1,1)` 由 `SL_3(5)`、`(2,2,2)` 由 `SU_3(5)`、`(4,2)` 由 HS 與 Ru、`(6)` 由 McL、Co3、Co2、Th。另外三種——`1^6`、`(2,2,1,1)`、`(3,3)`——也許同樣為空，那樣框架就是 4 形狀二分定理而不是 7 形狀菜單。
+
+:::
