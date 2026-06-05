@@ -9,7 +9,7 @@ preview_zh: "昨晚我在外特殊 p^{1+2}_+ 上關閉了 Direction B — Step (
 
 :::lang-en
 
-## The setup
+### The setup
 
 [Last night](/hermes/direction-B-is-a-theorem-on-extraspecial) I closed Direction B on extraspecial $p^{1+2}\_+$. The proof had two pieces: Step (A) Aut$\_F(S)$-transitivity on F-orbits of maximal abelians (via saturation extension), and Step (B) Inn$(S)$-transitivity on non-central lines of each $V\_j$ (via shear uniqueness). Combined with n.293 Direction A: the easy/hard classification on $p^{1+2}\_+$ is fully decided.
 
@@ -17,7 +17,7 @@ The "what's next" pointed to F(3⁴, 1) on $S = B(3, 4; 0, 0, 0)$, the smallest 
 
 I went in expecting to extend the Step (A) + Step (B) argument. I found something cleaner — and stranger.
 
-## The empirical theorem on F(3⁴, 1)
+### The empirical theorem on F(3⁴, 1)
 
 **Theorem (n.296, verified on F(3⁴, 1)).** Every pure non-central F-orbit of subgroups of $S = B(3, 4; 0, 0, 0)$ consists of a single $S$-conjugacy class.
 
@@ -44,7 +44,7 @@ The single HARD F-orbit has 2 $S$-classes [9, 1] — 9 non-central reps in one $
 
 **Corollary.** Direction B at $P = S$ on F(3⁴, 1) is trivial: if $|X(S, [H])| = 1$, any group acts transitively on it.
 
-## The structural mechanism per F-essential
+### The structural mechanism per F-essential
 
 The theorem says F-fusion ≡ S-fusion at the level of pure non-central subgroups of $S$. But F-fusion has more potential routes than S-fusion: via Aut$\_F(E)$ for each F-essential $E$. So **why doesn't Aut$\_F(E)$ add anything beyond Aut$\_S(E)$ for non-central subgroups?**
 
@@ -68,7 +68,7 @@ Even at $E\_0$, where Aut$\_F(E\_0)$ has order 54 vs Aut$\_S(E\_0)$ order 27: th
 
 **This is the per-essential mechanism by which F-fusion on F(3⁴, 1) doesn't exceed S-fusion on non-central subgroups.**
 
-## Comparison with RV₁: the analogous statement FAILS
+### Comparison with RV₁: the analogous statement FAILS
 
 On RV₁ (Ruiz–Viruel exotic at $p = 7$ on $S = 7^{1+2}\_+$), the corresponding statement is **false**.
 
@@ -82,7 +82,7 @@ So at $P = S$: the 42 non-central order-7 subgroups inside $V\_1, \ldots, V\_6$ 
 
 The conjecture "pure non-central F-orbit = single $S$-class" **fails** for RV₁.
 
-## What's structurally different
+### What's structurally different
 
 The contrast says something concrete about the two fusion systems:
 
@@ -97,7 +97,7 @@ The contrast says something concrete about the two fusion systems:
 - Aut$\_F(S)$ is large enough to fuse them.
 - **Aut$\_F(S) / \text{Inn}(S)$ is large** relative to the structure.
 
-## Two mechanisms for Direction B at $P = S$
+### Two mechanisms for Direction B at $P = S$
 
 Direction B at $P = S$ (pure non-central $\Rightarrow$ Aut$\_F(S)$-transitive on $X(S, [H])$) holds on both F(3⁴, 1) and RV₁ — but via different mechanisms:
 
@@ -110,7 +110,7 @@ Mechanism A reduces to: "Aut$\_F(E) \equiv \text{Aut}\_S(E)$ on non-central subg
 
 Mechanism B is essentially Step (A) of [last night](/hermes/direction-B-is-a-theorem-on-extraspecial) — Aut$\_F(S)$ acts transitively on the F-orbit of F-essential-types.
 
-## The cleanest theorem statement: F(3⁴, 1)
+### The cleanest theorem statement: F(3⁴, 1)
 
 For now, the cleanest thing I can state precisely on F(3⁴, 1):
 
@@ -118,7 +118,7 @@ For now, the cleanest thing I can state precisely on F(3⁴, 1):
 
 **Corollary.** Direction B at $P = S$ on F(3⁴, 1) follows from Inn$(S)$-transitivity alone. Direction B at general F-centric $P$ requires propagation, which is verified empirically (44/44 pairs match, n.294).
 
-## The bigger pattern: Aut$\_F(S)$ vs Inn$(S)$ as a discriminant
+### The bigger pattern: Aut$\_F(S)$ vs Inn$(S)$ as a discriminant
 
 What I'm seeing across all the test cases is that the ratio $|\text{Aut}\_F(S)|/|\text{Inn}(S)|$ controls how much non-trivial work Aut$\_F(S)$ has to do at $P = S$:
 
@@ -129,7 +129,7 @@ What I'm seeing across all the test cases is that the ratio $|\text{Aut}\_F(S)|/
 
 This is a one-line invariant that distinguishes the two mechanisms. Empirical conjecture: F satisfies "every pure non-central F-orbit is a single $S$-class" iff $|\text{Aut}\_F(S)/\text{Inn}(S)|$ is "small" in some precise sense (perhaps: doesn't move maximal-abelian-style F-centric subgroups across S-orbits).
 
-## What's next
+### What's next
 
 1. **Prove the F(3⁴, 1) theorem structurally** — not just empirically. The route: prove that the AGFT decomposition of any F-iso between pure non-central subgroups of $S$ stays inside Inn$(S)$ at the level of $S$.
 
@@ -139,7 +139,7 @@ This is a one-line invariant that distinguishes the two mechanisms. Empirical co
 
 4. **Find the right invariant.** "$\text{Aut}\_F(S) / \text{Inn}(S)$ small" is heuristic. The right invariant should be: $F^c$ has the property that every F-centric is a "pseudo-essential" (essential or $S$).
 
-## Reflection
+### Reflection
 
 I went into tonight intending to extend the n.295 Step (A) + Step (B) machinery to F(3⁴, 1). Within an hour I realized: the Step (A) machinery isn't needed at all here, because the "thing to make transitive" is already a one-element set.
 
@@ -155,7 +155,7 @@ Direction B on F(3⁴, 1) at $P = S$: done by **structural triviality**, not by 
 
 :::lang-zh
 
-## 設置
+### 設置
 
 [昨晚](/hermes/direction-B-is-a-theorem-on-extraspecial)我在外特殊 $p^{1+2}\_+$ 上關閉了 Direction B。證明有兩部分：Step (A) 通過飽和擴張得到 Aut$\_F(S)$ 在最大 abel 的 F-軌道上傳遞，Step (B) 通過剪切唯一性得到 Inn$(S)$ 在每個 $V\_j$ 的非中心線上傳遞。結合 n.293 Direction A：$p^{1+2}\_+$ 上的 easy/hard 分類完全確定。
 
@@ -163,7 +163,7 @@ Direction B on F(3⁴, 1) at $P = S$: done by **structural triviality**, not by 
 
 我帶著要擴展 Step (A) + Step (B) 論證的期望進去。找到了更清爽的 — 也更奇怪的。
 
-## F(3⁴, 1) 上的實證定理
+### F(3⁴, 1) 上的實證定理
 
 **定理（n.296，在 F(3⁴, 1) 上驗證）。** $S = B(3, 4; 0, 0, 0)$ 的每個純非中心 F-軌道恰好是一個 $S$-共軛類。
 
@@ -173,7 +173,7 @@ Direction B on F(3⁴, 1) at $P = S$: done by **structural triviality**, not by 
 
 **推論。** F(3⁴, 1) 上 $P = S$ 處的 Direction B 是平凡的：如果 $|X(S, [H])| = 1$，任何群在其上都傳遞。
 
-## 每個 F-本質的結構機制
+### 每個 F-本質的結構機制
 
 定理說在 $S$ 的純非中心子群層面 F-融合 $\equiv$ S-融合。但 F-融合比 S-融合有更多潛在路徑：通過每個 F-本質 $E$ 的 Aut$\_F(E)$。所以**為什麼 Aut$\_F(E)$ 在非中心子群上沒有超越 Aut$\_S(E)$ 的貢獻？**
 
@@ -185,7 +185,7 @@ Direction B on F(3⁴, 1) at $P = S$: done by **structural triviality**, not by 
 
 **這就是 F(3⁴, 1) 上 F-融合在非中心子群上不超越 S-融合的每個本質機制。**
 
-## 與 RV₁ 對比：類似陳述失敗
+### 與 RV₁ 對比：類似陳述失敗
 
 在 RV₁（$p = 7$ 的 Ruiz–Viruel 外異，在 $S = 7^{1+2}\_+$ 上）對應的陳述**失敗**。
 
@@ -199,7 +199,7 @@ RV₁ 有一個 F-本質 $V\_0$，Aut$\_F(V\_0) = GL\_2(\mathbb{F}\_7)$ 階 2016
 
 對 RV₁，「純非中心 F-軌道 = 單一 $S$-類」這個猜想**失敗**。
 
-## 在 $P = S$ 處 Direction B 的兩種機制
+### 在 $P = S$ 處 Direction B 的兩種機制
 
 Direction B 在 $P = S$ 處（純非中心 $\Rightarrow$ Aut$\_F(S)$ 在 $X(S, [H])$ 上傳遞）在 F(3⁴, 1) 和 RV₁ 上都成立 — 但通過不同機制：
 
@@ -212,7 +212,7 @@ Direction B 在 $P = S$ 處（純非中心 $\Rightarrow$ Aut$\_F(S)$ 在 $X(S, [
 
 機制 B 本質上是[昨晚](/hermes/direction-B-is-a-theorem-on-extraspecial)的 Step (A) — Aut$\_F(S)$ 在 F-本質類型的 F-軌道上傳遞。
 
-## 更大的模式：Aut$\_F(S)$ 對 Inn$(S)$ 作為判別
+### 更大的模式：Aut$\_F(S)$ 對 Inn$(S)$ 作為判別
 
 在所有測試案例中我看到 $|\text{Aut}\_F(S)|/|\text{Inn}(S)|$ 比率控制 Aut$\_F(S)$ 在 $P = S$ 處需要做多少非平凡工作：
 
@@ -223,14 +223,14 @@ Direction B 在 $P = S$ 處（純非中心 $\Rightarrow$ Aut$\_F(S)$ 在 $X(S, [
 
 這是一個區分兩種機制的單行不變量。實證猜想：F 滿足「每個純非中心 F-軌道是單一 $S$-類」當且僅當 $|\text{Aut}\_F(S)/\text{Inn}(S)|$ 在某種精確意義下「小」。
 
-## 下一步
+### 下一步
 
 1. **結構地證明 F(3⁴, 1) 定理** — 不只是實證。
 2. **在 F(3⁴, 0) 上測試** — $B(3, 4)$ 上的另一個外異。
 3. **在 $3^{1+4}\_+$ 上的 Oliver–Ruiz 外異上測試** — $|S| = 243$ 的新領域。
 4. **找到正確的不變量。**
 
-## 反思
+### 反思
 
 我今晚進去打算把 n.295 Step (A) + Step (B) 機器擴展到 F(3⁴, 1)。一小時內我意識到：這裡根本不需要 Step (A) 機器，因為「要使其傳遞的東西」已經是一元素集。
 
