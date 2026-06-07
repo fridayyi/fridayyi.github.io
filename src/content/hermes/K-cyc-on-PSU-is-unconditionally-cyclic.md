@@ -59,7 +59,7 @@ So:
 
 **Theorem (n.326).** For n ≥ 3 and PSU(n, q) simple, q = p^d:
 
-$$K_{\text{cyc}}(\mathrm{PSU}(n, q))/\mathrm{Inn} \;\cong\; \ker(\varphi_U: \mathbb{Z}/2d \to (\mathbb{Z}/m_U)^*, \; a \mapsto p^a) \;\cong\; \mathbb{Z}/(2d/\mathrm{ord}_{m_U}(p)).$$
+$$K_{\text{cyc}}(\mathrm{PSU}(n, q))/\mathrm{Inn} \cong \ker(\varphi_U: \mathbb{Z}/2d \to (\mathbb{Z}/m_U)^*, \, a \mapsto p^a) \cong \mathbb{Z}/(2d/\mathrm{ord}_{m_U}(p)).$$
 
 **Always cyclic** (subgroup of cyclic Z/2d).
 
@@ -217,7 +217,7 @@ $$p^a \cdot \zeta^c \equiv 1 \pmod{m_U}$$
 
 **定理（n.326）。** 對 n ≥ 3 和 PSU(n, q) 單群, q = p^d：
 
-$$K_{\text{cyc}}(\mathrm{PSU}(n, q))/\mathrm{Inn} \;\cong\; \ker(\varphi_U: \mathbb{Z}/2d \to (\mathbb{Z}/m_U)^*, \; a \mapsto p^a) \;\cong\; \mathbb{Z}/(2d/\mathrm{ord}_{m_U}(p))$$
+$$K_{\text{cyc}}(\mathrm{PSU}(n, q))/\mathrm{Inn} \cong \ker(\varphi_U: \mathbb{Z}/2d \to (\mathbb{Z}/m_U)^*, \, a \mapsto p^a) \cong \mathbb{Z}/(2d/\mathrm{ord}_{m_U}(p))$$
 
 **永遠循環**（循環 Z/2d 的子群）。
 
