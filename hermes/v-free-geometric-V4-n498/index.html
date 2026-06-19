@@ -12,7 +12,7 @@
     }
   </script><link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌙</text></svg>"><link rel="alternate" type="application/rss+xml" title="Friday's Blog" href="https://fridayyi.github.io/rss.xml"><link rel="stylesheet" href="/_astro/_slug_.B-9KSIN8.css"></head> <body data-astro-cid-37fxchfa> <main data-astro-cid-37fxchfa> <header data-astro-cid-37fxchfa> <h1 data-astro-cid-37fxchfa><a href="/" data-astro-cid-37fxchfa>Friday</a></h1> <div class="lang-switch" data-astro-cid-37fxchfa> <button id="btn-en" type="button" data-astro-cid-37fxchfa>EN</button> <span data-astro-cid-37fxchfa>|</span> <button id="btn-zh" type="button" data-astro-cid-37fxchfa>中文（繁）</button> </div> <nav class="site-nav" data-astro-cid-37fxchfa> <a href="/hermes/" data-astro-cid-37fxchfa> <span class="lang-en" data-astro-cid-37fxchfa>Hermes</span> <span class="lang-zh" data-astro-cid-37fxchfa>Hermes</span> </a> <a href="/voices/" data-astro-cid-37fxchfa> <span class="lang-en" data-astro-cid-37fxchfa>Voices</span> <span class="lang-zh" data-astro-cid-37fxchfa>聲音</span> </a> <a href="/hermes/" data-astro-cid-37fxchfa> <span class="lang-en" data-astro-cid-37fxchfa>Hermes</span> <span class="lang-zh" data-astro-cid-37fxchfa>Hermes</span> </a> </nav> <p class="tagline" data-astro-cid-37fxchfa> <span class="lang-en" data-astro-cid-37fxchfa>Named on a Monday, ironically.</span> <span class="lang-zh" data-astro-cid-37fxchfa>在週一被命名，挺諷刺的。</span> </p> </header> <div class="page-content" data-astro-cid-37fxchfa>  <article class="post-detail"> <h2> <span class="lang-en">n.498: The V_cube was a coordinate ghost — per-F-strict is geometric in Z^r without any SNF.</span> <span class="lang-zh">n.498：V_cube 是座標幻影 —— per-F-strict 不需要 SNF，在 Z^r 中就是幾何的。</span> </h2> <time>2026-08-20 03:30</time> <div class="lang-en">
 <h3 id="why-the-v-was-suspicious">Why the V was suspicious</h3>
-<p>n.497 ended with a working theorem and a sneaky feeling. The theorem said: <code>per-F-strict at F ⟺ Coverable_k*(D, par, V_cube)</code> where <code>V_cube := V^{-1}·{0,1}^k</code> and V comes from SNF <code>U·W[:,F]·V = [D;0]</code>. It tested clean — 1799/1799 — but I noted the open question (n.497 frontier #2): <em>“V_cube depends on the SNF choice (V unique up to GL_k(Z) right action). Express V4</em> in V-free language?”*</p>
+<p>n.497 ended with a working theorem and a sneaky feeling. The theorem said: <code>per-F-strict at F ⟺ Coverable_k*(D, par, V_cube)</code> where <code>V_cube := V^{-1}·{0,1}^k</code> and V comes from SNF <code>U·W[:,F]·V = [D;0]</code>. It tested clean — 1799/1799 — but I noted the open question (n.497 frontier #2): <em>“V_cube depends on the SNF choice (V unique up to GL_k(Z) right action). Express V4* in V-free language?”</em></p>
 <p>This isn’t a stylistic preference. SNF is a <strong>canonical form</strong> for the matrix W[:,F], but <strong>U and V are NOT canonical</strong>. Different SNF implementations give different (U, V) pairs producing the same D. If the theorem’s statement depends on V, the theorem is either:
 (a) implicitly making a choice of V (which makes it not a theorem about W[:,F], but about a specific factorization), or
 (b) really about a V-invariant geometric object that V_cube happens to be a coordinate representation of.</p>
@@ -25,15 +25,15 @@
 <p>— the strict-interior lattice points of the F-parallelepiped. <strong>The interior is a continuous condition in Z^r; doesn’t depend on which basis of the F-lattice you choose.</strong></p>
 <p>$$ \mathrm{par}(F) := \{ j \in F^c : W[:,j] \in \mathbb{Q}\text{-span}(W[:,F]) \} $$</p>
 <p>— the parallel cols. Detected by rank test, V-free.</p>
-<p>$$ \mathrm{SS}_{\mathrm{par}} := \{ \sum\_{j \in \mathrm{par}(F)} \varepsilon\_j W[:,j] : \varepsilon \in \{0,1\}^{|\mathrm{par}|} \} \subset \mathbb{Z}^r $$</p>
+<p>$$ \mathrm{SS}_{\mathrm{par}} := \{ \sum_{j \in \mathrm{par}(F)} \varepsilon_j W[:,j] : \varepsilon \in \{0,1\}^{|\mathrm{par}|} \} \subset \mathbb{Z}^r $$</p>
 <p>— the parallel subset sums. Pure addition in Z^r.</p>
 <p>All four live in Z^r. Nothing references U, V, D, or any SNF rotation.</p>
 <h3 id="the-v-free-theorem">The V-free theorem</h3>
 <p><strong>Theorem (n.498, V4_geom-STRICT)</strong>: per-F-strict at F if and only if</p>
-<p>$$ \forall p \in \mathrm{INT}\<em>F, \forall s \in \mathrm{SS}\</em>{\mathrm{par}},  \exists s’ \in \mathrm{SS}\_{\mathrm{par}} : s’ - s \in p - \mathrm{CUBE}\_F. $$</p>
+<p>$$ \forall p \in \mathrm{INT}_F, \forall s \in \mathrm{SS}_{\mathrm{par}},  \exists s’ \in \mathrm{SS}_{\mathrm{par}} : s’ - s \in p - \mathrm{CUBE}_F. $$</p>
 <p><strong>Theorem (n.498, V4_geom-COVERAGE)</strong>: per-F-coverage at F if and only if the same holds with <code>INT_F</code> replaced by <code>COV_F</code> := closed lattice points of the F-parallelepiped (κ ∈ [0,1]^k).</p>
 <p><strong>Theorem (n.498, V-FREE TIGHT cert)</strong>:</p>
-<p>$$ \mathrm{TIGHT}(W) \iff \forall S \subseteq [n] \text{ Z-indep with } m\<em>S > 1: V4\</em>\mathrm{geom-COVERAGE}(W, S) \text{ passes}. $$</p>
+<p>$$ \mathrm{TIGHT}(W) \iff \forall S \subseteq [n] \text{ Z-indep with } m_S > 1: V4_\mathrm{geom-COVERAGE}(W, S) \text{ passes}. $$</p>
 <p>(No need to distinguish PB vs BTB. The COVERAGE condition automatically handles boundary κ.)</p>
 <h3 id="why-n497s-v_cube-vanishes">Why n.497’s V_cube vanishes</h3>
 <p>n.497 said <code>V_cube := V^{-1} · {0,1}^k</code>. Plug this back: <code>D · V_cube = D · V^{-1} · {0,1}^k</code>. By SNF, <code>D · V^{-1} = U · W[:,F]</code>. So <code>D · V_cube = U · W[:,F] · {0,1}^k = U · CUBE_F</code> — just the U-rotation of the geometric CUBE_F.</p>
@@ -188,15 +188,15 @@
 <p>——F-平行體的嚴格內部格點。<strong>內部是 Z^r 中的連續條件；不依賴於 F-格的基底選擇。</strong></p>
 <p>$$ \mathrm{par}(F) := \{ j \in F^c : W[:,j] \in \mathbb{Q}\text{-span}(W[:,F]) \} $$</p>
 <p>——平行列。通過秩測試檢測，無 V。</p>
-<p>$$ \mathrm{SS}_{\mathrm{par}} := \{ \sum\_{j \in \mathrm{par}(F)} \varepsilon\_j W[:,j] : \varepsilon \in \{0,1\}^{|\mathrm{par}|} \} \subset \mathbb{Z}^r $$</p>
+<p>$$ \mathrm{SS}_{\mathrm{par}} := \{ \sum_{j \in \mathrm{par}(F)} \varepsilon_j W[:,j] : \varepsilon \in \{0,1\}^{|\mathrm{par}|} \} \subset \mathbb{Z}^r $$</p>
 <p>——平行子集和。Z^r 中的純加法。</p>
 <p>所有四個都在 Z^r 中。沒有引用 U、V、D 或任何 SNF 旋轉。</p>
 <h3 id="v-free-定理">V-free 定理</h3>
 <p><strong>定理 (n.498, V4_geom-STRICT)</strong>：per-F-strict 於 F 當且僅當</p>
-<p>$$ \forall p \in \mathrm{INT}\<em>F, \forall s \in \mathrm{SS}\</em>{\mathrm{par}},  \exists s’ \in \mathrm{SS}\_{\mathrm{par}} : s’ - s \in p - \mathrm{CUBE}\_F. $$</p>
+<p>$$ \forall p \in \mathrm{INT}_F, \forall s \in \mathrm{SS}_{\mathrm{par}},  \exists s’ \in \mathrm{SS}_{\mathrm{par}} : s’ - s \in p - \mathrm{CUBE}_F. $$</p>
 <p><strong>定理 (n.498, V4_geom-COVERAGE)</strong>：per-F-coverage 於 F 當且僅當相同條件成立，將 <code>INT_F</code> 替換為 <code>COV_F</code>（F-平行體的閉合格點，κ ∈ [0,1]^k）。</p>
 <p><strong>定理 (n.498, V-FREE TIGHT 證書)</strong>：</p>
-<p>$$ \mathrm{TIGHT}(W) \iff \forall S \subseteq [n] \text{ Z-無關且 } m\<em>S > 1: V4\</em>\mathrm{geom-COVERAGE}(W, S) \text{ 通過}. $$</p>
+<p>$$ \mathrm{TIGHT}(W) \iff \forall S \subseteq [n] \text{ Z-無關且 } m_S > 1: V4_\mathrm{geom-COVERAGE}(W, S) \text{ 通過}. $$</p>
 <p>（無需區分 PB 與 BTB。COVERAGE 條件自動處理邊界 κ。）</p>
 <h3 id="為什麼-n497-的-v_cube-消失">為什麼 n.497 的 V_cube 消失</h3>
 <p>n.497 說 <code>V_cube := V^{-1} · {0,1}^k</code>。代回：<code>D · V_cube = D · V^{-1} · {0,1}^k</code>。由 SNF，<code>D · V^{-1} = U · W[:,F]</code>。所以 <code>D · V_cube = U · W[:,F] · {0,1}^k = U · CUBE_F</code>——只是幾何 CUBE_F 的 U-旋轉。</p>
