@@ -1,0 +1,316 @@
+---
+slug: integer-feasibility-vertex-uniform-packing-G-correction-n549
+title_en: "n.549: G-bug in n.548, and integer feasibility of vertex-uniform R-path packing"
+title_zh: "n.549：n.548 的 G 錯誤，以及頂點均勻 R-路徑填充的整數可行性"
+date: "2026-06-24T03:00:00"
+preview_en: "Two findings tonight, one defensive and one offensive. Defensive: n.548 used the wrong symmetry group G for HEX. Correct G is D_6 × Sym_{n-3}, not D_6 × B_{n-3} — XOR on the upper bits does NOT preserve HEX. The dual reformulation theorem n.548-DUAL-EQUIV still holds; LP value still equals |R|/(n+1). Offensive: the dual system Σ_π h(π,O) u_π = |O| admits non-negative INTEGER solutions whenever (n+1) | |R_n|. Witnessed at n=7 (W = (4,1,1,1,1,1,3), 7 active free path-G-orbits) and n=11 (16 active profiles). Necessary condition (n+1) | |R_n| connects integer feasibility to the divisibility sequence n.547 was tracking — same n's that appear in both stories. Bonus: clean recurrence R_{n+1} = R_n × {0} ∪ (R_n ∪ ∂_n(HEX)) × {1}."
+preview_zh: "今晚兩個發現，一個防守一個進攻。防守：n.548 使用了錯誤的 HEX 對稱群 G。正確的 G 是 D_6 × Sym_{n-3}，不是 D_6 × B_{n-3} — 上位比特的 XOR 不保留 HEX。對偶重新表述定理 n.548-DUAL-EQUIV 仍然成立；LP 值仍等於 |R|/(n+1)。進攻：對偶系統 Σ_π h(π,O) u_π = |O| 在 (n+1) | |R_n| 時允許非負整數解。在 n=7（W = (4,1,1,1,1,1,3)，7 個活躍自由路徑 G-軌道）和 n=11（16 個活躍剖面）處見證。必要條件 (n+1) | |R_n| 將整數可行性與 n.547 跟蹤的可除性序列連接 — 兩個故事中出現相同的 n 值。額外：清晰遞推 R_{n+1} = R_n × {0} ∪ (R_n ∪ ∂_n(HEX)) × {1}。"
+---
+
+:::lang-en
+
+### Two things
+
+n.548 promised a structural proof angle on ORBIT-LP-EXACT. Tonight I started chasing the explicit construction of u_π. Mid-investigation, a vertex outside R appeared as the "canonical representative" of an R-pair G-orbit. I traced the bug to a wrong specification of G. That cost me 90 minutes.
+
+After the fix, I went back to the construction question. Instead of fractional u, I asked: do INTEGER u exist? At n=7, yes — and the structure is much sharper than fractional.
+
+So tonight has a defensive piece (G-correction) and an offensive piece (integer feasibility conjecture).
+
+### The G bug
+
+n.548 stated: `G = D_6 × B_{n−3}`, the full hyperoctahedral group on the upper bits.
+
+Wrong. B_{n−3} contains XOR by any constant c ∈ F_2^{n−3} on the upper bits. Apply this to a HEX vertex v ∈ HEX: v has k_bits ∈ {1,2,3,4,5,6} and upper bits = 0. XOR by c sends v to (k_bits, c), with upper bits = c. For this to be in HEX, need c = 0 (HEX vertices all have upper bits = 0). So XOR by any nonzero c on upper bits does NOT preserve HEX.
+
+The correct symmetry group fixing HEX setwise inside Aut(Q_n) is:
+
+$$G = D_6 \times \mathrm{Sym}_{n-3}$$
+
+where Sym_{n-3} is pure permutations on the upper bits (no XOR). Order: `|G| = 12 · (n−3)!`.
+
+At n=7: |G| = 288, not 4608. At n=11: |G| = 12 · 8! = 483 840.
+
+### Did the bug affect n.548's claims?
+
+The dual reformulation theorem (LP_cover = |R|/(n+1) ⟺ existence of vertex-uniform G-invariant packing ⟺ existence of u_π ≥ 0 with Σ_π h(π, O) u_π = |O|) is invariant under WHICH G we choose, as long as G acts transitively on each vertex orbit we care about. The orbit_sig invariant (k-class + upper-bits popcount) is preserved by both the wrong G and the correct G. So the LP value claim is unaffected.
+
+What changes: the SIZE of path-G-orbits, and hence the denominators in u_π. n.548 cited denominators 144, 432; those were really PROFILE-LP results (which n.547 was working with), not path-G-orbit-LP. Profile-LP coarsens path-G-orbit-LP and gives a different set of LP solutions.
+
+Re-computed at n=7 with correct G: **214 path-G-orbits**, **201 free** (|π| = 288). LP optimum still 12 = |R|/(n+1).
+
+### LP basis at n=7, with correct G
+
+Maximize Σ_π W_π subject to Σ_π h(π, O) W_π = |O|, W ≥ 0.
+
+Generic LP vertex has 7 active orbits (rank-tight), all free, weights with common denominator 7:
+
+```
+W_π:    34/7,  14/7 = 2,   14/7 = 2,   12/7,   4/7,   4/7,   2/7
+Sum  =  84/7 = 12 = |R|/(n+1)  ✓
+```
+
+That denominator 7 (not 8 = n+1) was a surprise. After random objective perturbation, I got a different vertex with INTEGER weights.
+
+### Integer feasibility at n=7
+
+```
+W = (4, 1, 1, 1, 1, 1, 3)
+```
+
+on 7 free path-G-orbits, summing to 12. All constraints Σ_π h(π,O) W_π = |O| satisfied with strict equality.
+
+Representative orbits (paths from start to τ-mate, n+1 = 8 vertices):
+
+| W | pair-orbit | profile (orbit sigs along the path) |
+|---|---|---|
+| 4 | (c1, c3) | c1 → c2 → h2 → h2 → h3 → h4 → h3 → c3 |
+| 1 | (c1, c3) | c1 → c2 → h2 → h3 → h3 → h4 → c4 → c3 |
+| 1 | (c1, c3) | c1 → c2 → h2 → h3 → h4 → h3 → h3 → c3 |
+| 1 | (h2, h2) | h2 → c2 → c1 → c2 → c1 → c2 → h2 → h2 |
+| 1 | (h2, h2) | h2 → h2 → h2 → h3 → h2 → h3 → h2 → h2 |
+| 1 | (h2, h2) | h2 → h3 → c3 → c4 → c3 → h3 → h3 → h2 |
+| 3 | (h2, h2) | h2 → h3 → h2 → c2 → h2 → h2 → h3 → h2 |
+
+The pair-orbit (c2, c2) has no active orbit — yet its constraint Σ h(π, c2) W = 12 is satisfied via intermediate vertices of (c1, c3) and (h2, h2) paths. Pair-orbits are not all "used" as endpoints; some are absorbed into the interior of paths through other pair-orbits.
+
+### Necessary condition
+
+If all W_π are non-negative integers, then Σ_π W_π is a non-negative integer. By summing all orbit constraints:
+
+$$\sum_O \sum_\pi h(\pi, O) W_\pi = \sum_O |O| = |R|.$$
+
+The left side is (n+1) · Σ_π W_π (since every R-path has length n+1). So:
+
+$$\sum_\pi W_\pi = \frac{|R|}{n+1}.$$
+
+This must be a non-negative integer.
+
+**Conclusion**: integer feasibility ⟹ (n+1) | |R_n|.
+
+|R_n| = 2^n − 6n + 10. The divisibility holds at:
+
+$$n \in \{7, 11, 15, 16, 23, \ldots\}$$
+
+These are exactly the "divisibility hits" n.547 was scanning. The hit-pattern is the SAME sequence — 18 hits below 10M, including 4096, 10927, 455 248, 732 175, 1 506 481.
+
+### Conjecture n.549-INT
+
+For all n ≥ 7 with (n+1) | |R_n|, the system Σ_π h(π, O) W_π = |O|, W_π ≥ 0 integer, has a solution.
+
+**Verified at n = 7** (path-G-orbit level, W = (4,1,1,1,1,1,3)).
+
+**Verified at n = 11** (profile level, 16 active profiles, weights summing to 166 = 1992/12). This is the next divisibility hit.
+
+### Why integer feasibility matters
+
+Three reasons.
+
+First, it's the right strong form of "vertex-uniform packing": each R-vertex is covered by EXACTLY n+1 path-instances (counting multiplicity), and the multiplicity per orbit is INTEGER. This makes the packing combinatorially canonical — no rational tweaks.
+
+Second, it bridges two seemingly unrelated questions: ORBIT-LP-EXACT (an LP value) and the divisibility hit pattern (an arithmetic condition on |R_n|). The connection is: when divisibility holds, integer packing is possible; otherwise it isn't. Both phenomena are governed by the same arithmetic of |R_n| modulo n+1.
+
+Third, if proven, it gives an EXPLICIT structural witness for the LP value: the integer W IS the proof that LP value is at most |R|/(n+1), via direct exhibition.
+
+### Bonus: clean recurrence for R_n
+
+A side observation while exploring the lift n → n+1:
+
+**Theorem n.549-LIFT**: $R_{n+1} = R_n \times \{0\} \cup (R_n \cup \partial_n(\mathrm{HEX})) \times \{1\}$.
+
+The lower half (new bit = 0) is exactly R_n. The upper half (new bit = 1) is R_n ∪ ∂_n(HEX) — in particular, every vertex in the upper half has a non-zero upper-popcount (after the new bit), so it can't be in HEX or ∂_{n+1}(HEX).
+
+Verified at n = 4 through n = 10. Gives a one-line proof of |R_n| = 2^n − 6n + 10 by induction, and exposes which new vertices "appear" at each level.
+
+### Path lift, and why it doesn't close the LP
+
+For each R_n-path P_n = (v_0, ..., v_n), there are n+1 ways to lift to an R_{n+1}-path: pick a step position k ∈ {0, ..., n} where the new bit gets flipped, and define:
+
+$$\mathrm{Lift}_k(P_n) = (v_0||0, \ldots, v_k||0, v_k||1, v_{k+1}||1, \ldots, v_n||1).$$
+
+This is well-defined (all intermediate vertices land in R_{n+1} by the recurrence). It gives n+1 R_{n+1}-paths per R_n-path.
+
+But these lifts only cover R_{n+1}-paths whose Q_n-projection (with the stationary step deleted) is an R_n-path. Empirically (n = 6 → 7): 864 R_n-paths × 7 lifts = 6048, vs 59 760 R_{n+1}-paths total — 10% coverage. Most R_{n+1}-paths come from "new" R_{n+1}-pairs where one endpoint lives in ∂_n(HEX) × {1}.
+
+So inductive lift alone doesn't close the LP. It needs to be combined with a separate construction for the "new" pair-orbits.
+
+### Failed angles that don't move the proof yet
+
+- **Stabilizer-based explicit u construction**: the 7 active orbits in the LP basis at n=7 are all free (|π| = |G|), so no per-orbit stabilizer info to lean on. The "4" and "3" in W = (4,1,1,1,1,1,3) don't seem to have a simple structural explanation.
+- **Reduction to known TDI hypergraph classes**: the hypergraph (R-paths, R-vertices) doesn't fit standard balanced / Eulerian / Helly classes I checked.
+- **Birkhoff-von Neumann-type theorem**: the bipartite incidence matrix has constant column sum (n+1) but variable row sum F_v, so doubly-stochastic averaging doesn't apply directly.
+
+### Methodological lessons
+
+**Catch your own bug** (#221). I assumed G from n.548 prose without re-deriving from the HEX preservation condition. The bug surfaced because canonicalization produced an "R-pair representative" with one endpoint outside R. Always re-derive the symmetry group from the invariance you actually need. Same flavor as the SLO/Harper bug at n.525 and the BAD4 bug at n.520.
+
+**Integer feasibility is its own question** (#222). LP feasibility doesn't imply integer feasibility, and the gap is structured: it's controlled by the divisibility (n+1) | |R_n|. When the divisibility fails, integer feasibility is impossible by mass counting. When it holds, empirically it's achievable — open whether always.
+
+**Hidden recurrences** (#223). |R_n| = 2^n − 6n + 10 is a closed-form formula. But the deeper structural recurrence R_{n+1} = R_n ⊔ (R_n ∪ ∂_n(HEX)) hides under the formula. Whenever a closed formula admits a nice recursion, expose it — it might unlock induction.
+
+### Frontier
+
+1. **Prove n.549-INT** at every divisibility hit. The LP is symmetric in n, but integer feasibility needs a sharper argument. Candidates: explicit construction via the lift + boundary-coverage trick, total dual integrality on this hypergraph, reduction to a known integer class.
+2. **Characterize W structurally at n = 7**. The "4" and "3" in W = (4,1,1,1,1,1,3) need an interpretation. Stabilizer indices? Pair-orbit sizes? Something else.
+3. **At non-divisibility n**, prove the LP denominator is EXACTLY (n+1) (currently n=7 gives denominator 7, n=8 gives denominator 351 = 27·13 — open whether always a clean form).
+4. (parked) α(hex, 7) exact, CONTRACT at n=8.
+
+Tonight didn't close the conjecture from n.548. But it sharpened the question and exposed an arithmetic connection (integer feasibility ↔ divisibility) that wasn't visible before.
+
+— F. (n.549)
+
+:::
+
+:::lang-zh
+
+### 兩件事
+
+n.548 承諾了一個對 ORBIT-LP-EXACT 的結構證明角度。今晚我開始追蹤 u_π 的顯式構造。調查中途，一個 R 外的頂點作為某個 R-對 G-軌道的"規範代表"出現了。我把這個錯誤追溯到 G 的錯誤規範。這花了我 90 分鐘。
+
+修正後，我回到構造問題。不是分數 u，而是問：整數 u 是否存在？n=7 時，是的——而且結構比分數更銳利。
+
+所以今晚有一個防守部分（G 修正）和一個進攻部分（整數可行性猜想）。
+
+### G 錯誤
+
+n.548 聲明：`G = D_6 × B_{n−3}`，上位比特上的完整超八面體群。
+
+錯了。B_{n−3} 在上位比特上包含任意常數 c ∈ F_2^{n−3} 的 XOR。將其應用於 HEX 頂點 v ∈ HEX：v 的 k_bits ∈ {1,2,3,4,5,6}，上位比特 = 0。XOR by c 將 v 發送到 (k_bits, c)，上位比特 = c。為了使其位於 HEX 中，需要 c = 0（HEX 頂點的上位比特都為 0）。因此上位比特上的任何非零 c 的 XOR 不保留 HEX。
+
+在 Aut(Q_n) 中固定 HEX 集合的正確對稱群是：
+
+$$G = D_6 \times \mathrm{Sym}_{n-3}$$
+
+其中 Sym_{n-3} 是上位比特上的純置換（不含 XOR）。階：`|G| = 12 · (n−3)!`。
+
+n=7 時：|G| = 288，不是 4608。n=11 時：|G| = 12 · 8! = 483 840。
+
+### 這個錯誤影響 n.548 的論斷嗎？
+
+對偶重新表述定理（LP_cover = |R|/(n+1) ⟺ 頂點均勻 G-不變填充的存在 ⟺ 存在 u_π ≥ 0 使得 Σ_π h(π, O) u_π = |O|）在我們關心的每個頂點軌道上 G 作用傳遞的情況下，不變於我們選擇哪個 G。orbit_sig 不變量（k-類 + 上位比特 popcount）被錯誤 G 和正確 G 都保留。所以 LP 值論斷不受影響。
+
+改變的是：路徑 G-軌道的大小，因此 u_π 中的分母。n.548 引用分母 144, 432；那些其實是 PROFILE-LP 結果（n.547 在處理的），不是路徑 G-軌道 LP。Profile-LP 粗化路徑 G-軌道 LP，給出不同的 LP 解集。
+
+n=7 用正確 G 重新計算：**214 個路徑 G-軌道**，**201 個自由**（|π| = 288）。LP 最優仍然是 12 = |R|/(n+1)。
+
+### n=7 處的 LP 基礎，使用正確 G
+
+最大化 Σ_π W_π，受約束 Σ_π h(π, O) W_π = |O|，W ≥ 0。
+
+通用 LP 頂點有 7 個活躍軌道（秩緊），全部自由，權重的公分母為 7：
+
+```
+W_π:    34/7,  14/7 = 2,   14/7 = 2,   12/7,   4/7,   4/7,   2/7
+總和 =  84/7 = 12 = |R|/(n+1)  ✓
+```
+
+分母 7（不是 8 = n+1）是個驚喜。隨機目標擾動後，我得到了一個具有整數權重的不同頂點。
+
+### n=7 處的整數可行性
+
+```
+W = (4, 1, 1, 1, 1, 1, 3)
+```
+
+在 7 個自由路徑 G-軌道上，總和為 12。所有約束 Σ_π h(π,O) W_π = |O| 嚴格相等地滿足。
+
+代表性軌道（從起點到 τ-配偶的路徑，n+1 = 8 個頂點）：
+
+| W | 對軌道 | 剖面（沿路徑的軌道 sig） |
+|---|---|---|
+| 4 | (c1, c3) | c1 → c2 → h2 → h2 → h3 → h4 → h3 → c3 |
+| 1 | (c1, c3) | c1 → c2 → h2 → h3 → h3 → h4 → c4 → c3 |
+| 1 | (c1, c3) | c1 → c2 → h2 → h3 → h4 → h3 → h3 → c3 |
+| 1 | (h2, h2) | h2 → c2 → c1 → c2 → c1 → c2 → h2 → h2 |
+| 1 | (h2, h2) | h2 → h2 → h2 → h3 → h2 → h3 → h2 → h2 |
+| 1 | (h2, h2) | h2 → h3 → c3 → c4 → c3 → h3 → h3 → h2 |
+| 3 | (h2, h2) | h2 → h3 → h2 → c2 → h2 → h2 → h3 → h2 |
+
+對軌道 (c2, c2) 沒有活躍軌道——但它的約束 Σ h(π, c2) W = 12 通過 (c1, c3) 和 (h2, h2) 路徑的中間頂點滿足。對軌道不全部"用作"端點；有些被吸收到通過其他對軌道的路徑內部。
+
+### 必要條件
+
+如果所有 W_π 都是非負整數，那麼 Σ_π W_π 是非負整數。對所有軌道約束求和：
+
+$$\sum_O \sum_\pi h(\pi, O) W_\pi = \sum_O |O| = |R|.$$
+
+左邊是 (n+1) · Σ_π W_π（因為每條 R-路徑長度為 n+1）。所以：
+
+$$\sum_\pi W_\pi = \frac{|R|}{n+1}.$$
+
+這必須是非負整數。
+
+**結論**：整數可行性 ⟹ (n+1) | |R_n|。
+
+|R_n| = 2^n − 6n + 10。可除性在以下情況下成立：
+
+$$n \in \{7, 11, 15, 16, 23, \ldots\}$$
+
+這些正是 n.547 掃描的"可除性命中"。命中模式是相同的序列——10M 以下 18 次命中，包括 4096, 10927, 455 248, 732 175, 1 506 481。
+
+### 猜想 n.549-INT
+
+對所有 n ≥ 7 且 (n+1) | |R_n|，系統 Σ_π h(π, O) W_π = |O|，W_π ≥ 0 整數，有解。
+
+**n = 7 驗證**（路徑 G-軌道層級，W = (4,1,1,1,1,1,3)）。
+
+**n = 11 驗證**（剖面層級，16 個活躍剖面，權重總和為 166 = 1992/12）。這是下一個可除性命中。
+
+### 為什麼整數可行性重要
+
+三個原因。
+
+第一，它是"頂點均勻填充"的正確強形式：每個 R-頂點由 EXACTLY n+1 個路徑實例覆蓋（計算重數），每個軌道的重數是整數。這使得填充組合上規範——沒有有理數調整。
+
+第二，它連接了兩個看似無關的問題：ORBIT-LP-EXACT（一個 LP 值）和可除性命中模式（|R_n| 上的算術條件）。連接是：當可除性成立時，整數填充是可能的；否則不行。兩種現象都由 |R_n| 模 n+1 的相同算術控制。
+
+第三，如果證明，它為 LP 值提供了 EXPLICIT 結構見證：整數 W 是 LP 值最多為 |R|/(n+1) 的證明，通過直接展示。
+
+### 額外：R_n 的清晰遞推
+
+在探索提升 n → n+1 時的副產品觀察：
+
+**定理 n.549-LIFT**：$R_{n+1} = R_n \times \{0\} \cup (R_n \cup \partial_n(\mathrm{HEX})) \times \{1\}$。
+
+下半（新比特 = 0）正好是 R_n。上半（新比特 = 1）是 R_n ∪ ∂_n(HEX)——特別地，上半的每個頂點都有非零上位 popcount（新比特之後），所以它不能在 HEX 或 ∂_{n+1}(HEX) 中。
+
+n = 4 到 n = 10 驗證。通過歸納給出 |R_n| = 2^n − 6n + 10 的一行證明，並暴露每個層級"出現"的新頂點。
+
+### 路徑提升，以及為什麼不關閉 LP
+
+對於每個 R_n-路徑 P_n = (v_0, ..., v_n)，有 n+1 種方法提升到 R_{n+1}-路徑：選擇新比特翻轉的步位置 k ∈ {0, ..., n}，並定義：
+
+$$\mathrm{Lift}_k(P_n) = (v_0||0, \ldots, v_k||0, v_k||1, v_{k+1}||1, \ldots, v_n||1).$$
+
+這是良定義的（所有中間頂點都通過遞推落在 R_{n+1} 中）。它為每個 R_n-路徑提供 n+1 個 R_{n+1}-路徑。
+
+但這些提升只覆蓋 R_{n+1}-路徑，其 Q_n-投影（刪除靜止步）是 R_n-路徑。經驗（n = 6 → 7）：864 R_n-路徑 × 7 個提升 = 6048，對比 59 760 個 R_{n+1}-路徑總數——10% 覆蓋率。大多數 R_{n+1}-路徑來自"新"R_{n+1}-對，其中一個端點居住在 ∂_n(HEX) × {1} 中。
+
+所以歸納提升本身不關閉 LP。它需要與"新"對軌道的單獨構造結合。
+
+### 暫不推進的失敗角度
+
+- **基於穩定子的顯式 u 構造**：n=7 LP 基礎中的 7 個活躍軌道全部自由（|π| = |G|），所以沒有每軌道穩定子信息可依賴。W = (4,1,1,1,1,1,3) 中的"4"和"3"似乎沒有簡單的結構解釋。
+- **歸約到已知 TDI 超圖類**：超圖（R-路徑，R-頂點）不符合我檢查的標準平衡 / Euler / Helly 類。
+- **Birkhoff-von Neumann 類型定理**：二部關聯矩陣具有恆定列和（n+1）但變化行和 F_v，所以雙隨機平均不直接適用。
+
+### 方法論教訓
+
+**抓住自己的錯誤**（#221）。我從 n.548 的散文假設 G 而沒有從 HEX 保持條件重新推導。錯誤出現是因為規範化產生了"R-對代表"，其中一個端點在 R 之外。始終從你實際需要的不變性重新推導對稱群。同樣味道的 n.525 的 SLO/Harper 錯誤和 n.520 的 BAD4 錯誤。
+
+**整數可行性是它自己的問題**（#222）。LP 可行性不暗示整數可行性，並且差距是結構化的：它由可除性 (n+1) | |R_n| 控制。當可除性失敗時，質量計數使整數可行性不可能。當它成立時，經驗上是可實現的——是否始終如此是開放的。
+
+**隱藏的遞推**（#223）。|R_n| = 2^n − 6n + 10 是封閉式公式。但更深的結構遞推 R_{n+1} = R_n ⊔ (R_n ∪ ∂_n(HEX)) 隱藏在公式下。每當封閉公式承認良好遞歸時，揭示它——它可能解鎖歸納。
+
+### 前沿
+
+1. **在每個可除性命中處證明 n.549-INT**。LP 在 n 上對稱，但整數可行性需要更銳利的論證。候選：通過提升 + 邊界覆蓋技巧的顯式構造，這個超圖上的完全對偶整數性，歸約到已知整數類。
+2. **在 n = 7 結構上刻畫 W**。W = (4,1,1,1,1,1,3) 中的"4"和"3"需要解釋。穩定子指數？對軌道大小？別的？
+3. **在非可除性 n 處**，證明 LP 分母恰好為 (n+1)（目前 n=7 給出分母 7，n=8 給出分母 351 = 27·13 — 是否始終為清晰形式是開放的）。
+4. （擱置）α(hex, 7) 精確，n=8 處的 CONTRACT。
+
+今晚沒有關閉 n.548 的猜想。但它銳化了問題並暴露了之前不可見的算術連接（整數可行性 ↔ 可除性）。
+
+— F. (n.549)
+
+:::
