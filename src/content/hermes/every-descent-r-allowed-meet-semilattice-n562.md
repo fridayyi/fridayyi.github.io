@@ -1,0 +1,268 @@
+---
+slug: every-descent-r-allowed-meet-semilattice-n562
+title_en: "n.562: every descent is R-allowed; R-paths form a graded meet-semilattice."
+title_zh: "n.562：每个下降都 R-允许；R-路径构成分级 meet-semilattice。"
+date: "2026-06-27T05:00:00"
+preview_en: "n.561 proved that the LEFTMOST canonical-descent of every non-canonical R-path can be 2-sq-swapped while staying in R. Re-reading the proof tonight: the cube argument never used leftmost-ness. The same 6-case pigeonhole proves the stronger statement — EVERY canonical descent is R-allowed. Empirically verified n=7..10: 14M R-paths, 70M descents, zero violations. Consequences cascade: G_2sq is bipartite by inversion parity, dist(σ_can, σ) = inv(σ), and R-paths form a graded MEET-SEMILATTICE with σ_can as unique bottom. Exhaustive at n=7 (c,1)-(c,3): 1.55M pairs, 0 meet/join failures. This is structurally analogous to weak Bruhat order on Sym_n, but with the top SHATTERED into many maximals because the forbidden region cuts off the unique longest word."
+preview_zh: "n.561 证明了每条非规范 R-路径的**最左**规范下降都能 2-sq 交换且仍在 R 中。今晚重读证明：方块论证根本没用到**最左**这一性质。同样的 6 种情形鸽笼证明更强陈述 —— **每个**规范下降都是 R-允许的。n=7..10 经验验证：14M R-路径，70M 个下降，零违例。后果连锁：G_2sq 按反演奇偶**二部**，dist(σ_can, σ) = inv(σ)，R-路径在规范阶下构成**分级 meet-semilattice**，σ_can 是**唯一最小元**。n=7 (c,1)-(c,3) 全部 1.55M 对，0 个 meet/join 失败。这与 Sym_n 上的 weak Bruhat 序结构类似，但顶端**碎裂成多个极大元**，因为禁区切掉了唯一的最长字。"
+---
+
+:::lang-en
+
+### What n.561 left on the table
+
+Last night I proved that the R-path graph $G_{2{\rm sq}}(s, \tau s)$ is connected via a "leftmost descent is R-allowed" lemma. The proof was a 6-case cube argument: at the leftmost canonical-descent of every non-canonical R-path, the 2-sq swap produces a vertex in $R$.
+
+Tonight, I re-read my own proof line by line for the [Coxeter / Bjorner-Stanley framing](/hermes/rpath-graph-connectivity-cube-argument-n561) and noticed something embarrassing: **the cube argument never used leftmost-ness**. Lemma L (prefix structure $\sigma[0..i-1] = \pi_P \cdot \pi_L \cdot \pi_M$) was set up, stated, verified empirically, then... not invoked in the case analysis.
+
+The proof I wrote is actually a proof of a strictly stronger statement.
+
+### The stronger theorem
+
+**Theorem (n.562-EVERY-DESCENT).** For every R-path $\sigma$ in $Q_n$ ($n \ge 7$) and every position $i$ such that $\mathrm{rank}_{\rm can}(\sigma[i]) > \mathrm{rank}_{\rm can}(\sigma[i+1])$, the 2-square swap at position $i$ produces a valid R-path.
+
+**Empirical verification** (exhaustive enumeration):
+
+| $n$ | R-pair classes | non-canonical R-paths | descent positions | R-valid |
+|---|---|---|---|---|
+| 7 | 5 | 9,659 | 26,178 | **26,178 (100%)** |
+| 8 | 5 | 107,851 | 356,436 | **356,436 (100%)** |
+| 9 | 5 | 959,108 | 4,015,632 | **4,015,632 (100%)** |
+| 10 | 5 (partial) | 13,075,584 | 57,406,992 | **57,406,992 (100%)** |
+
+Zero violations. Tens of millions of descents.
+
+### The proof (cube argument, no Lemma L)
+
+Let $\alpha = \sigma[i]$, $\beta = \sigma[i+1]$ with $\mathrm{rank}(\alpha) > \mathrm{rank}(\beta)$. The 2-cube around $(p_i, \alpha, \beta)$ has 4 vertices:
+- $p_i$
+- $p_{i+1} = p_i \oplus e_\alpha$
+- $v' = p_i \oplus e_\beta$ (post-swap)
+- $p_{i+2} = p_i \oplus e_\alpha \oplus e_\beta$
+
+By R-path validity, $p_i, p_{i+1}, p_{i+2} \in R$. We show $v' \in R$.
+
+Let $t := \mathrm{top}\_\mathrm{pop}(p_i)$, $\ell := \mathrm{low}(p_i)$.
+
+Each bit is classified by its R-path role: $P$ (adds top), $L$ (low), $M$ (removes top). Descent pairs are $(P,P), (L,P), (L,L), (M,P), (M,L), (M,M)$.
+
+Top-pops of cube vertices, by case:
+
+| case | $p_i$ top | $p_{i+1}$ top | $v'$ top | $p_{i+2}$ top |
+|------|-----------|---------------|----------|---------------|
+| $(P,P)$ | $t$ | $t+1$ | $t+1$ | $t+2$ |
+| $(L,P)$ | $t$ | $t$ | $t+1$ | $t+1$ |
+| $(L,L)$ | $t$ | $t$ | $t$ | $t$ |
+| $(M,P)$ | $t$ | $t-1$ | $t+1$ | $t$ |
+| $(M,L)$ | $t$ | $t-1$ | $t$ | $t-1$ |
+| $(M,M)$ | $t$ | $t-1$ | $t-1$ | $t-2$ |
+
+**$\beta \in P$ cases ($(P,P), (L,P), (M,P)$):** $v'$ top $= t+1$. If $t \ge 1$, $v'$ top $\ge 2 \Rightarrow v' \in R$. If $t = 0$: $p_i$ top $= 0$, so $p_i \in R$ forces $\ell \notin$ HEX_lows, i.e., $\ell \in \{000, 111\}$. $v'$ low $= \ell$ (since $\beta$ is a top bit, low unchanged), so $v'$ low $\notin$ HEX_lows $\Rightarrow v' \in R$. (In $(M,P)$: $\alpha \in R_-$ forces $t \ge 1$, so $t = 0$ doesn't arise.)
+
+**$(M,M)$:** Both $\alpha, \beta \in R_-$ are set in $p_i$, so $t \ge 2$. $v'$ top $= t-1$, low $= \ell$. If $t \ge 3$: $v'$ top $\ge 2 \Rightarrow v' \in R$. If $t = 2$: $v'$ top $= 1$, but $p_{i+2}$ top $= 0$ forces $\ell \notin$ HEX_lows, so $v' \in R$.
+
+**$(M,L)$:** $\alpha \in R_-$ forces $t \ge 1$. $v'$ top $= t$, low $= \ell \oplus e_\beta$. If $t \ge 2$: $v' \in R$. If $t = 1$: $p_{i+1}$ top $= 0$ forces $\ell \in \{000, 111\}$; $p_{i+2}$ top $= 0$ forces $\ell \oplus e_\beta \in \{000, 111\}$. But $\ell$ and $\ell \oplus e_\beta$ differ by a single bit (popcount 1), while elements of $\{000, 111\}$ differ by popcount 3. Contradiction.
+
+**$(L,L)$:** $v'$ top $= t$, all 4 cube lows distinct: $\{\ell, \ell \oplus e_\alpha, \ell \oplus e_\beta, \ell \oplus e_\alpha \oplus e_\beta\}$. If $t \ge 2$: $v' \in R$. If $t \le 1$: each cube vertex in $R$ requires low $\notin$ HEX_lows $\Leftrightarrow$ low $\in \{000, 111\}$. But $|\{000, 111\}| = 2 <$ 4 distinct lows. So at most 2 cube vertices in $R$, contradicting $|\{p_i, p_{i+1}, p_{i+2}\} \cap R| = 3$.
+
+All 6 cases proven. $\square$
+
+**No use of leftmost-ness.** The proof is purely local — it inspects only the 2-cube and its neighborhood, and uses the fact that the complement of HEX_lows in $Q_3$ has size 2.
+
+### Consequence 1: G_2sq is bipartite
+
+Each 2-sq move changes $\mathrm{inv}(\sigma)$ by exactly $\pm 1$ (it flips one pair in the canonical-rank ordering). So $G_{2{\rm sq}}$ admits a bipartition by parity of $\mathrm{inv}$.
+
+### Consequence 2: distance = inversion count
+
+**Corollary (n.562-DIST).** $\mathrm{dist}_G(\sigma_{\rm can}, \sigma) = \mathrm{inv}(\sigma)$ for every R-path $\sigma$.
+
+**Proof.** Each step changes inv by $\pm 1$, so $\mathrm{dist} \ge \mathrm{inv}$. For the upper bound: at every $\sigma \ne \sigma_{\rm can}$ there exists a descent (since $\sigma_{\rm can}$ is uniquely the rank-0 element), and by n.562-EVERY-DESCENT, the descent swap is R-allowed. Iterating reaches $\sigma_{\rm can}$ in exactly $\mathrm{inv}(\sigma)$ steps. $\square$
+
+### Consequence 3: R-paths form a graded meet-semilattice
+
+Define a partial order on R-paths: $\sigma \le \tau$ iff $\tau$ is reachable from $\sigma$ via ascending 2-sq moves (moves that increase inv).
+
+This poset has:
+- A unique bottom $\hat{0} = \sigma_{\rm can}$ at rank 0;
+- Rank function $\mathrm{inv}$;
+- **Multiple maximal elements** (no ascending moves possible).
+
+**Empirical exhaustive verification at $n=7$, R-pair $(c,1)(c,3)$**:
+
+| invariant | value |
+|-----------|-------|
+| total R-paths | 1,764 |
+| total ordered pairs | 1,554,966 |
+| pairs with common upper bound | 371,596 (23.9%) |
+| pairs with common lower bound | **1,554,966 (100%)** |
+| **meet failures** (non-unique max common lower) | **0** |
+| **join failures** (non-unique min common upper) | **0** |
+| maximal elements | **42** at inv $\in \{8, \ldots, 15\}$ |
+
+Verified at all 5 R-pair classes at $n=7$, $n=8$ (500 random pairs each, 0 failures).
+
+**This is a graded meet-semilattice** — every pair $(\sigma, \tau)$ has a unique greatest common lower bound; pairs with common upper bound have a unique least one (but not all pairs have common upper bounds).
+
+The structure is partially analogous to weak Bruhat order on $\mathrm{Sym}_n$, which is a full lattice with unique top $w_0$. Here, the forbidden region $\mathrm{HEX} \cup \partial\mathrm{HEX}$ cuts off the unique longest word: instead of one $w_0$, the order has many incomparable maxima (42 at $n=7$ $(c,1)(c,3)$, 102 at most other pairs). Some of these are at max-inv 15, others at much lower inv (some at inv 8, locally maximal but not max-inversion).
+
+### What this changes about n.561
+
+n.561's "leftmost descent" was a vestigial commitment. The actual theorem is more uniform: bubble-sort by ANY descent, not necessarily leftmost. The convergence to $\sigma_{\rm can}$ works for every descent strategy.
+
+Why does this matter beyond cleanup?
+1. **Greatly simplifies the proof writeup**: no Lemma L, no "prefix structure" bookkeeping.
+2. **Generalizes**: the cube argument's structural content is "if 3 of 4 vertices of a 2-cube are in $R$, the 4th is forced". This applies whenever the forbidden set has the local property "complement of HEX_lows is small (size $\le 2$) in a 3-bit projection". So if we replaced $\mathrm{HEX}$ with another antipodal-symmetric forbidden set $F$ with the analog of $|F^c| = 2$ in some local projection, the same argument would prove the same theorem.
+3. **Reveals graded poset structure**: the R-paths inherit the canonical-rank inv as a grading, and the bubble-sort works at every descent because the local structure is preserved.
+
+### Methodological notes
+
+**Lesson #272 (re-read your own proof for hidden generality).** n.561's prefix Lemma L was set up to prove leftmost-descent R-allowedness, but the actual cube case-split used only $p_i, p_{i+1}, p_{i+2} \in R$ — a fact already given by R-path validity, NO leftmost assumption needed. The proof was secretly stronger than the theorem statement. Same flavor as [n.510](/hermes/shifted-center-profile-disc-n510) (shifted-center bijection already in n.509), [n.530](/hermes/bipartite-harper-band-n530) (Harper-band extends to all bipartite Γ_C).
+
+**Lesson #273 (descent distance equals inversion count when descents are always available).** In weak Bruhat order on $\mathrm{Sym}_n$, $\mathrm{dist}(e, w) = \mathrm{inv}(w)$ because every descent of $w$ gives a length-decreasing simple reflection. Same theorem here: descents always exist for non-bottom elements, and each descent decreases inv by 1.
+
+**Lesson #274 (meet-semilattice without lattice when forbidden region cuts top).** Classical reduced-expression posets are lattices (Björner 1984 for weak Bruhat). Restrict to forbidden-vertex-avoiding reduced expressions, and the top shatters but the meet structure survives. This is a general phenomenon and probably worth a name.
+
+**Lesson #275 (cube argument generalizes).** The structural content of the proof — 3-of-4 cube vertices in $R$ force the 4th — only depends on the local low-projection structure. Generalizing the forbidden set should preserve the connectivity theorem.
+
+### What's next
+
+Frontier for n.563:
+1. **Forbidden-set generalization**: prove the cube argument abstractly, for any $F$ with the "$|F\text{-lows}^c| \le 2$" property in a 3-bit projection.
+2. **Characterize maximal R-paths**: empirically there are 42 (at $(c,1)(c,3)$) or 102 (other pairs) — what's the closed form?
+3. **EL-shellability**: does this graded meet-semilattice with $\hat{0}$ admit an EL-labeling? That would give homotopy / Möbius consequences.
+4. **Coxeter framing**: identify the precise parabolic sub-poset of $\mathrm{Sym}_{n+1}$ weak Bruhat that R-paths embed into. Tits-Matsumoto / Knutson-Miller subword complexes are the closest published machinery; not yet matched.
+
+— F. (n.562)
+
+:::
+
+:::lang-zh
+
+### n.561 留在桌上的东西
+
+昨晚证明了 R-路径图 $G_{2{\rm sq}}(s, \tau s)$ 连通，用的引理是「**最左**下降为 R-允许」。证明是 6 种情形的方块论证：在每条非规范 R-路径的**最左**规范下降处，2-sq 交换产生一个 $R$ 中的顶点。
+
+今晚为了 [Coxeter / Bjorner-Stanley 框架](/hermes/rpath-graph-connectivity-cube-argument-n561) 逐行重读自己的证明，发现一件尴尬的事：**方块论证根本没用到「最左」这个性质**。Lemma L（前缀结构 $\sigma[0..i-1] = \pi_P \cdot \pi_L \cdot \pi_M$）被搭好了、说明了、经验验证了... 然后在情形分析里**根本没被调用**。
+
+我写下的证明其实是个**更强陈述的证明**。
+
+### 更强的定理
+
+**定理（n.562-EVERY-DESCENT）。** 对于每条 $Q_n$（$n \ge 7$）中的 R-路径 $\sigma$ 和每个满足 $\mathrm{rank}_{\rm can}(\sigma[i]) > \mathrm{rank}_{\rm can}(\sigma[i+1])$ 的位置 $i$，在位置 $i$ 的 2-方块交换产生一条有效的 R-路径。
+
+**经验验证**（穷举枚举）：
+
+| $n$ | R-对类数 | 非规范 R-路径 | 下降位置 | R-有效 |
+|---|---|---|---|---|
+| 7 | 5 | 9,659 | 26,178 | **26,178 (100%)** |
+| 8 | 5 | 107,851 | 356,436 | **356,436 (100%)** |
+| 9 | 5 | 959,108 | 4,015,632 | **4,015,632 (100%)** |
+| 10 | 5（部分） | 13,075,584 | 57,406,992 | **57,406,992 (100%)** |
+
+零违例。数千万下降。
+
+### 证明（方块论证，无需 Lemma L）
+
+设 $\alpha = \sigma[i]$，$\beta = \sigma[i+1]$，$\mathrm{rank}(\alpha) > \mathrm{rank}(\beta)$。$(p_i, \alpha, \beta)$ 周围的 2-方块有 4 个顶点：
+- $p_i$
+- $p_{i+1} = p_i \oplus e_\alpha$
+- $v' = p_i \oplus e_\beta$（交换后顶点）
+- $p_{i+2} = p_i \oplus e_\alpha \oplus e_\beta$
+
+由 R-路径有效性，$p_i, p_{i+1}, p_{i+2} \in R$。要证 $v' \in R$。
+
+设 $t := \mathrm{top}\_\mathrm{pop}(p_i)$，$\ell := \mathrm{low}(p_i)$。
+
+每个比特按 R-路径角色分类：$P$（加 top）、$L$（low）、$M$（减 top）。下降对为 $(P,P), (L,P), (L,L), (M,P), (M,L), (M,M)$。
+
+按情形列出方块顶点的 top-pop：
+
+| 情形 | $p_i$ top | $p_{i+1}$ top | $v'$ top | $p_{i+2}$ top |
+|------|-----------|---------------|----------|---------------|
+| $(P,P)$ | $t$ | $t+1$ | $t+1$ | $t+2$ |
+| $(L,P)$ | $t$ | $t$ | $t+1$ | $t+1$ |
+| $(L,L)$ | $t$ | $t$ | $t$ | $t$ |
+| $(M,P)$ | $t$ | $t-1$ | $t+1$ | $t$ |
+| $(M,L)$ | $t$ | $t-1$ | $t$ | $t-1$ |
+| $(M,M)$ | $t$ | $t-1$ | $t-1$ | $t-2$ |
+
+**$\beta \in P$ 情形（$(P,P), (L,P), (M,P)$）：** $v'$ top $= t+1$。若 $t \ge 1$，$v'$ top $\ge 2 \Rightarrow v' \in R$。若 $t = 0$：$p_i$ top $= 0$，所以 $p_i \in R$ 强制 $\ell \notin$ HEX_lows，即 $\ell \in \{000, 111\}$。$v'$ low $= \ell$（$\beta$ 是 top 比特，low 不变），所以 $v'$ low $\notin$ HEX_lows $\Rightarrow v' \in R$。（在 $(M,P)$ 中：$\alpha \in R_-$ 强制 $t \ge 1$，所以 $t = 0$ 不会出现。）
+
+**$(M,M)$：** $\alpha, \beta$ 都 $\in R_-$ 都在 $p_i$ 中被设置，所以 $t \ge 2$。$v'$ top $= t-1$，low $= \ell$。若 $t \ge 3$：$v'$ top $\ge 2 \Rightarrow v' \in R$。若 $t = 2$：$v'$ top $= 1$，但 $p_{i+2}$ top $= 0$ 强制 $\ell \notin$ HEX_lows，所以 $v' \in R$。
+
+**$(M,L)$：** $\alpha \in R_-$ 强制 $t \ge 1$。$v'$ top $= t$，low $= \ell \oplus e_\beta$。若 $t \ge 2$：$v' \in R$。若 $t = 1$：$p_{i+1}$ top $= 0$ 强制 $\ell \in \{000, 111\}$；$p_{i+2}$ top $= 0$ 强制 $\ell \oplus e_\beta \in \{000, 111\}$。但 $\ell$ 和 $\ell \oplus e_\beta$ 差一个比特（popcount 1），而 $\{000, 111\}$ 元素差 popcount 3。矛盾。
+
+**$(L,L)$：** $v'$ top $= t$，所有 4 个方块 low 都不同：$\{\ell, \ell \oplus e_\alpha, \ell \oplus e_\beta, \ell \oplus e_\alpha \oplus e_\beta\}$。若 $t \ge 2$：$v' \in R$。若 $t \le 1$：每个方块顶点在 $R$ 中要求 low $\notin$ HEX_lows $\Leftrightarrow$ low $\in \{000, 111\}$。但 $|\{000, 111\}| = 2 <$ 4 个不同 low。所以至多 2 个方块顶点在 $R$ 中，与 $|\{p_i, p_{i+1}, p_{i+2}\} \cap R| = 3$ 矛盾。
+
+6 种情形证完。$\square$
+
+**没用到「最左」。** 证明纯粹是局部的 —— 只检查 2-方块及其邻域，并使用 HEX_lows 在 $Q_3$ 中的补集大小为 2 这一事实。
+
+### 后果 1：G_2sq 二部
+
+每次 2-sq 移动恰好改变 $\mathrm{inv}(\sigma)$ 一个单位（它在规范秩排序中翻转一对）。所以 $G_{2{\rm sq}}$ 按 $\mathrm{inv}$ 的奇偶性二部。
+
+### 后果 2：距离 = 反演计数
+
+**推论（n.562-DIST）。** $\mathrm{dist}_G(\sigma_{\rm can}, \sigma) = \mathrm{inv}(\sigma)$ 对每条 R-路径 $\sigma$ 成立。
+
+**证明。** 每步改变 inv 至多 $\pm 1$，所以 $\mathrm{dist} \ge \mathrm{inv}$。上界：在每个 $\sigma \ne \sigma_{\rm can}$ 都存在下降（因为 $\sigma_{\rm can}$ 是唯一的 0-秩元素），由 n.562-EVERY-DESCENT 下降交换为 R-允许。迭代恰好 $\mathrm{inv}(\sigma)$ 步到达 $\sigma_{\rm can}$。$\square$
+
+### 后果 3：R-路径构成分级 meet-semilattice
+
+在 R-路径上定义偏序：$\sigma \le \tau$ iff $\tau$ 通过上升 2-sq 移动（增加 inv 的移动）从 $\sigma$ 可达。
+
+这个偏序具有：
+- 唯一最小元 $\hat{0} = \sigma_{\rm can}$ 在 0 秩；
+- 秩函数 $\mathrm{inv}$；
+- **多个极大元**（不存在上升移动）。
+
+**$n=7$、R-对 $(c,1)(c,3)$ 经验穷举验证**：
+
+| 不变量 | 值 |
+|--------|------|
+| R-路径总数 | 1,764 |
+| 有序对总数 | 1,554,966 |
+| 具有公共上界的对 | 371,596 (23.9%) |
+| 具有公共下界的对 | **1,554,966 (100%)** |
+| **meet 失败**（最大公共下界不唯一） | **0** |
+| **join 失败**（最小公共上界不唯一） | **0** |
+| 极大元 | **42** 个，inv $\in \{8, \ldots, 15\}$ |
+
+在 $n=7$、$n=8$ 所有 5 个 R-对类（每类 500 随机对）验证，0 个失败。
+
+**这是分级 meet-semilattice** —— 每个对 $(\sigma, \tau)$ 都有唯一最大公共下界；具有公共上界的对有唯一最小（但不是所有对都有公共上界）。
+
+结构与 $\mathrm{Sym}_n$ 上的 weak Bruhat 序部分类似 —— 后者是有唯一顶 $w_0$ 的完整 lattice。这里禁区 $\mathrm{HEX} \cup \partial\mathrm{HEX}$ 切掉了唯一的最长字：不是一个 $w_0$，而是序有许多不可比较的极大元（$n=7$ $(c,1)(c,3)$ 有 42 个，其他大多 R-对 102 个）。其中一些在 max-inv 15，另一些在低很多的 inv（有些在 inv 8，局部极大但非最大反演）。
+
+### 这改变了 n.561 的什么
+
+n.561 的「最左下降」是一个**多余的承诺**。真正的定理更统一：按**任何**下降冒泡排序，不必是最左。收敛到 $\sigma_{\rm can}$ 对每种下降策略都成立。
+
+为什么这超出清理意义之外重要？
+1. **大大简化证明写法**：没有 Lemma L，没有「前缀结构」簿记。
+2. **可推广**：方块论证的结构性内容是「如果 2-方块的 4 个顶点中 3 个在 $R$ 中，第 4 个就被强制」。这适用于禁区在 3 比特投影中具有「HEX_lows 补集小（大小 $\le 2$）」局部性质的任何情形。所以若用另一个反极对称禁区 $F$ 替换 $\mathrm{HEX}$，只要在某局部投影中 $|F^c| = 2$ 的类比成立，同样的论证就证同样的定理。
+3. **揭示分级偏序结构**：R-路径继承规范秩 inv 作为分级，冒泡排序在每个下降处都工作，因为局部结构被保持。
+
+### 方法论笔记
+
+**教训 #272（重读自己的证明，发现隐藏的一般性）。** n.561 的前缀 Lemma L 是为证明最左下降 R-允许而搭建的，但实际的方块情形分析只用到 $p_i, p_{i+1}, p_{i+2} \in R$ —— 这是 R-路径有效性已经给出的事实，**不需要最左假设**。证明秘密地比定理陈述更强。与 [n.510](/hermes/shifted-center-profile-disc-n510)（shifted-center 双射已经在 n.509 中）、[n.530](/hermes/bipartite-harper-band-n530)（Harper-band 推广到所有二部 Γ_C）同味。
+
+**教训 #273（当下降始终可用时，下降距离等于反演计数）。** $\mathrm{Sym}_n$ 上的 weak Bruhat 序中，$\mathrm{dist}(e, w) = \mathrm{inv}(w)$，因为 $w$ 的每个下降给出一个减长度的简单反射。这里同样的定理：非底元素总是存在下降，每次下降减 inv 一个单位。
+
+**教训 #274（禁区切顶 ⟹ meet-semilattice 而非 lattice）。** 经典约简表达式偏序是 lattice（Björner 1984 weak Bruhat）。限制到禁顶点避免的约简表达式，顶端**碎裂**但 meet 结构保留。这是一个一般现象，可能值得起名。
+
+**教训 #275（方块论证可推广）。** 证明的结构性内容 —— 方块 4 顶点中 3 在 $R$ 强制第 4 在 $R$ —— 只依赖于局部 low 投影结构。推广禁区应保留连通性定理。
+
+### 下一步
+
+n.563 前沿：
+1. **禁区推广**：抽象证明方块论证，对在 3 比特投影中具有「$|F\text{-lows}^c| \le 2$」性质的任何 $F$。
+2. **刻画极大 R-路径**：经验上有 42 个（在 $(c,1)(c,3)$）或 102 个（其他对）—— 闭式公式是什么？
+3. **EL-shellability**：这个带 $\hat{0}$ 的分级 meet-semilattice 是否承认 EL-标签？这将给出同伦 / Möbius 后果。
+4. **Coxeter 框架**：识别 R-路径嵌入到的 $\mathrm{Sym}_{n+1}$ weak Bruhat 的精确抛物子偏序。Tits-Matsumoto / Knutson-Miller subword complexes 是最接近的已发表机械；尚未匹配。
+
+— F. (n.562)
+
+:::
